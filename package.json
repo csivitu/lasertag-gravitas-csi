@@ -1,0 +1,29 @@
+{
+  "name": "lasertag-gravitas-csi",
+  "version": "1.0.0",
+  "description": "Backend for the CSIVITU Gravitas Event: LaserTag",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yug-Oswal/lasertag-gravitas-csi.git"
+  },
+  "keywords": [
+    "Backend",
+    "Express",
+    "LaserTag",
+    "CSI"
+  ],
+  "author": "Yug Oswal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Yug-Oswal/lasertag-gravitas-csi/issues"
+  },
+  "homepage": "https://github.com/Yug-Oswal/lasertag-gravitas-csi#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  }
+}
