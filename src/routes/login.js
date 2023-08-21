@@ -2,6 +2,6 @@ import express from "express";
 
 const login = express.Router();
 
-login.post("/", loginController);
+login.post("/", LoginController);
 
 export default login;

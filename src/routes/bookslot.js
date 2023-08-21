@@ -2,6 +2,6 @@ import express from "express";
 
 const bookslot = express.Router();
 
-bookslot.post("/", BookslotController);
+bookslot.post("/", BookSlotController);
 
 export default bookslot;

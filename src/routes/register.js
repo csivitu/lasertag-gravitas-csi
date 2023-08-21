@@ -2,6 +2,6 @@ import express from "express";
 
 const register = express.Router();
 
-register.post("/", registrationController);
+register.post("/", RegistrationController);
 
 export default register;
