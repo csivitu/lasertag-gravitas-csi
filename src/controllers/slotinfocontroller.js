@@ -4,11 +4,13 @@ import Slot from "../models/slotModel";
 const SlotInfoController = catchAsync(
     async (req, res) => {
         const slots = await Slot.find({}, {slotBookedBy: 0})
+        .sort({day: 1, startTime: 1})
         .catch((err) => {
-            console.log("Slot retrieval error from Database: " + err.message);
-            res.status(500).json({error: "Unable to retrieve slots from DB"});
+            console.log("Slot retrieval/sorting error: " + err.message);
+            return res.status(500).json({error: "Unable to retrieve/sort Slots from Database"});
         });
-        res.status(200).json(slots);
+
+        return res.status(200).json(slots);
     }
 );
 
