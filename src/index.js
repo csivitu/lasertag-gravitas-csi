@@ -1,13 +1,12 @@
 import express from "express";
-import dotenv from "dotenv";
+import envHandler from "./helpers/envHandler";
 import protect from "./middleware/protect";
 import login from "./routes/login";
 import verifyuser from "./routes/verifyuser";
 import userinfo from "./routes/userinfo";
 
 const app = express();
-dotenv.config();
-const port = process.env.PORT || 3000;
+const port = envHandler('PORT');
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
