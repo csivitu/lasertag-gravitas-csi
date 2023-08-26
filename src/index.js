@@ -1,7 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
+import protect from "./middleware/protect";
 import login from "./routes/login";
 import verifyuser from "./routes/verifyuser";
+import userinfo from "./routes/userinfo";
 
 const app = express();
 dotenv.config();
@@ -13,3 +15,4 @@ app.listen(port, () => {
 
 app.use("/login", login);
 app.use("/verify-user", verifyuser);
+app.use("/user-info", protect, userinfo);

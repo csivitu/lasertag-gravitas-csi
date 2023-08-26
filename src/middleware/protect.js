@@ -26,4 +26,4 @@ const protect = catchAsync(
     }
 );
 
-
+export default protect;
