@@ -1,5 +1,5 @@
 const requireAdmin = catchAsync(
-    async (req, res) => {
+    async (req, res, next) => {
         const userID = req.userID;
 
         const user = await User.findOne({_id: userID});
