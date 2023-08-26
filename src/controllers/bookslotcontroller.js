@@ -1,5 +1,5 @@
-import catchAsync from "../helpers/catchAsync";
-import envHandler from "../helpers/envHandler";
+import catchAsync from "../helpers/catchAsync.js";
+import envHandler from "../helpers/envHandler.js";
 import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 

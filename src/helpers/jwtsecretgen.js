@@ -1,3 +1,3 @@
-const crypto = require('crypto');
+import crypto from "crypto";
 const jwtsecret = crypto.randomBytes(32).toString('hex');
 console.log(jwtsecret);
