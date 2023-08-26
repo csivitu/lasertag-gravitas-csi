@@ -1,5 +1,5 @@
-import catchAsync from "../helpers/catchAsync";
-import User from "../models/userModel";
+import catchAsync from "../helpers/catchAsync.js";
+import User from "../models/userModel.js";
 import otpGenerator from "otp-generator";
 import nodemailer from "nodemailer";
 

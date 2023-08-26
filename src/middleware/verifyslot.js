@@ -1,6 +1,6 @@
-import catchAsync from "../helpers/catchAsync";
-import envHandler from "../helpers/envHandler";
-import Slot from "../models/slotModel";
+import catchAsync from "../helpers/catchAsync.js";
+import envHandler from "../helpers/envHandler.js";
+import Slot from "../models/slotModel.js";
 
 const verifyslot = catchAsync(
     async (req, res, next) => {

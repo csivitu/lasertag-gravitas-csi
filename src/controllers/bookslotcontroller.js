@@ -1,7 +1,7 @@
 import catchAsync from "../helpers/catchAsync";
 import envHandler from "../helpers/envHandler";
-import Slot from "../models/slotModel";
-import User from "../models/userModel";
+import Slot from "../models/slotModel.js";
+import User from "../models/userModel.js";
 
 const BookSlotController = catchAsync(
     async (req, res) => {

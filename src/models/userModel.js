@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import envHandler from "../helpers/envHandler";
+import envHandler from "../helpers/envHandler.js";
+import Slot from "./slotModel.js";
 
 const userSchema = new mongoose.Schema({
     regno: {type: String, required: true},

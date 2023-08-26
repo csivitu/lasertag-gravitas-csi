@@ -1,5 +1,5 @@
 import catchAsync from "../helpers/catchAsync.js";
-import { envHandler } from "../helpers/envHandler.js"
+import envHandler from "../helpers/envHandler.js"
 import { jwtVerifyPromisified } from "../helpers/jwtFuncs.js";
 
 const protect = catchAsync(
