@@ -1,3 +1,5 @@
+import User from "../models/userModel";
+
 const requireAdmin = catchAsync(
     async (req, res, next) => {
         const userID = req.userID;
@@ -14,3 +16,5 @@ const requireAdmin = catchAsync(
         next();
     }
 );
+
+export default requireAdmin;
