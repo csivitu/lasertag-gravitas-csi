@@ -15,6 +15,15 @@ const BookSlotController = catchAsync(
             console.log("User not Found");
             return res.status(400).json({error: "User not Found"});
         }
+        if (user.slotBooked != null) {
+            return res.status(400).json({error: "User has already booked slot. To change, please click Change Slot."});
+        }
+
+        slot.slotBookedBy.push(user);
+        user.slotBooked = slot;
+        await Promise.all([slot.save(), user.save()]);
+
+        // Sending slot booking confirmation mail is left
     }
 );
 
