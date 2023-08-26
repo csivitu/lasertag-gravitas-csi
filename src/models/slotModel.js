@@ -5,7 +5,8 @@ const slotSchema = new mongoose.Schema({
     startTime: {type: Date, required: true},
     endTime: {type: Date, required: true},
     day: {type: Number, default: 0},
-    slotBookedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    isBooked: {type: Boolean, default: false, required: true},
+    slotBookedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null},
 });
 
 const Slot = mongoose.model('Slot', slotSchema);

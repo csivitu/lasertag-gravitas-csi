@@ -3,9 +3,7 @@ import envHandler from "../helpers/envHandler";
 
 const userSchema = new mongoose.Schema({
     regno: {type: String, required: true},
-    name: {type: String, required: true},
     email: {type: String, required: true, unique: true},
-    isChangedSlot: {type: Boolean, default: false},
     slotBooked: {type: mongoose.Schema.Types.ObjectId, ref: 'Slot', default: null},
     otp: {type: Number, default: envHandler('OTP')},
     scope: {type: String, default: "USER"}
