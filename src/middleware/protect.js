@@ -11,7 +11,7 @@ const protect = catchAsync(
             token = authorizationHeader.split(' ')[1];
 
         if (!token)
-            return res.status(400).json({ error: 'User ID must be alphanumeric', verified: false });
+            return res.status(400).json({ error: "User is not logged in or Login session has expired. Please Login again.", verified: false });
 
         const decoded = await jwtVerifyPromisified(token, envHandler('JWTSecret'))
             .catch((err) => {
