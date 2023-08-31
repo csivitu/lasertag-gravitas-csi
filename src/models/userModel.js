@@ -4,6 +4,7 @@ import Slot from "./slotModel.js";
 
 const userSchema = new mongoose.Schema({
     regno: {type: String, required: true},
+    phoneno: {type: String, default: null},
     email: {type: String, required: true, unique: true},
     slotBooked: {type: mongoose.Schema.Types.ObjectId, ref: 'Slot', default: null},
     otp: {type: Number, default: envHandler('OTP')},
