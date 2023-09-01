@@ -9,7 +9,6 @@ import slotinfo from "./routes/slotinfo.js";
 import bookslot from "./routes/bookslot.js";
 import changeslot from "./routes/changeslot.js";
 import cancelslot from "./routes/cancelslot.js";
-import createdata from "./routes/createdata.js";
 
 const app = express();
 const port = envHandler('PORT');
