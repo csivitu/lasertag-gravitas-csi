@@ -7,7 +7,7 @@ const protect = catchAsync(
         let authorizationHeader = req.headers.authorization;
         let token;
         if (authorizationHeader &&
-            authorizationHeader.startswith('Bearer'))
+            authorizationHeader.startsWith('Bearer'))
             token = authorizationHeader.split(' ')[1];
 
         if (!token)

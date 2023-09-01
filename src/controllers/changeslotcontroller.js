@@ -5,7 +5,7 @@ import Slot from "../models/slotModel.js";
 const ChangeSlotController = catchAsync(
     async (req, res) => {
         let {slotId} = req.body;
-        let userID = req.userID;
+        let userID = req.userID.userID;
 
         const user = await User.findById(userID);
 
@@ -19,21 +19,29 @@ const ChangeSlotController = catchAsync(
         if (!oldSlot) {
             return res.status(400).json({error: "Already booked slot is invalid."});
         }
-        if (oldSlot.getTime() < new Date().getTime()) {
+        if (oldSlot.startTime.getTime() < new Date().getTime()) {
             return res.status(400).json({error: "Booked slot time has already passed."});
         }
-        if (oldSlot.getTime() - new Date().getTime() < 9 * 60 * 60 * 1000) {
+        if ((oldSlot.startTime.getTime() - new Date().getTime()) < (9 * 60 * 60 * 1000)) {
             return res.status(400).json({error: 
                 "Slot change is not allowed within 9 hours of the already booked slot."});
         }
         
-        oldSlot.slotBookedBy = oldSlot.slotBookedBy.filter(
-            (id) => id != user._id
+        const updatedSlot = Slot.findByIdAndUpdate(
+            oldSlot._id,
+            {$pull: {slotBookedBy: user._id}},
+            {new: true}
         );
+
+        if (!updatedSlot) {
+            return res.status(500).json({error: "Unable to change slot."});
+        }
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
         await Promise.all([oldSlot.save(), slot.save(), user.save()]);
+
+        return res.status(200).json({message: "Slot successfully changed."});
     }
 );
 

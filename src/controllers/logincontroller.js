@@ -2,6 +2,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import otpGenerator from "otp-generator";
 import nodemailer from "nodemailer";
+import envHandler from "../helpers/envHandler.js";
 
 const LoginController = catchAsync(
     async (req, res) => {
@@ -27,13 +28,13 @@ const LoginController = catchAsync(
         const transporter = nodemailer.createTransport({
             service: "Gmail",
             auth: {
-                user: "your-email@some.com",
-                pass: "some-password"
+                user: envHandler('MAILER'),
+                pass: envHandler('MLRPASS')
             }
         });
 
         const mailOptions = {
-            from: "your-email@some.com",
+            from: envHandler('MAILER'),
             to: email,
             subject: "OTP Verification",
             text: `Your OTP for Verification is: ${generatedOTP}`

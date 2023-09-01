@@ -3,7 +3,7 @@ import User from "../models/userModel.js";
 
 const UserInfoController = catchAsync(
     async (req, res) => {
-        const userID = req.userID;
+        const userID = req.userID.userID;
 
         const user = await User.findOne({_id: userID}).populate("slotBooked")
         .catch((err) => {

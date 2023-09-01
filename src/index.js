@@ -9,6 +9,7 @@ import slotinfo from "./routes/slotinfo.js";
 import bookslot from "./routes/bookslot.js";
 import changeslot from "./routes/changeslot.js";
 import cancelslot from "./routes/cancelslot.js";
+// import createdata from "./routes/createdata.js";
 
 const app = express();
 const port = envHandler('PORT');
@@ -25,6 +26,7 @@ app.use("/slot-info", slotinfo);
 app.use("/book-slot", bookslot);
 app.use("/change-slot", changeslot);
 app.use("/cancel-slot", cancelslot);
+// app.use("/create-data", createdata);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);

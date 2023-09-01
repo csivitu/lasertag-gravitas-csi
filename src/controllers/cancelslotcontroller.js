@@ -4,7 +4,7 @@ import Slot from "../models/slotModel.js";
 
 const CancelSlotController = catchAsync(
     async (req, res) => {
-        let userID = req.userID;
+        let userID = req.userID.userID;
 
         const user = await User.findById(userID);
 
@@ -22,11 +22,19 @@ const CancelSlotController = catchAsync(
             return res.status(400).json({error: "Invalid slot."});
         }
 
-        slot.slotBookedBy = slot.slotBookedBy.filter(
-            (id) => id != user._id
+        const updatedSlot = Slot.findByIdAndUpdate(
+            slot._id,
+            {$pull: {slotBookedBy: user._id}},
+            {new: true}
         );
+
+        if (!updatedSlot) {
+            return res.status(500).json({error: "Unable to change slot."});
+        }
+
         user.slotBooked = null;
         await Promise.all([slot.save(), user.save()]);
+        return res.status(200).json({message: "Slot successfully cancelled."});
     }
 );
 

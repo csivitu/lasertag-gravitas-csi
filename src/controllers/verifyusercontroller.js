@@ -1,4 +1,6 @@
+import jwt from "jsonwebtoken";
 import catchAsync from "../helpers/catchAsync.js";
+import envHandler from "../helpers/envHandler.js";
 import User from "../models/userModel.js";
 
 const VerifyUserController = catchAsync(

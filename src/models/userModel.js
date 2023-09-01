@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     phoneno: {type: String, default: null},
     email: {type: String, required: true, unique: true},
     slotBooked: {type: mongoose.Schema.Types.ObjectId, ref: 'Slot', default: null},
-    otp: {type: Number, default: envHandler('OTP')},
+    otp: {type: String, default: envHandler('OTP')},
     scope: {type: String, default: "USER"}
 });
 

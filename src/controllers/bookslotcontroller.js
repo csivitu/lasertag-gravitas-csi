@@ -7,7 +7,7 @@ import nodemailer from "nodemailer";
 const BookSlotController = catchAsync(
     async (req, res) => {
         let {slotId} = req.body;
-        let userID = req.userID;
+        let userID = req.userID.userID;
 
         const slot = await Slot.findById(slotId).populate("slotBookedBy");
         const user = await User.findById(userID).populate("slotBooked");
