@@ -27,13 +27,13 @@ const BookSlotController = catchAsync(
         const transporter = nodemailer.createTransport({
             service: "Gmail",
             auth: {
-                user: "your-email@some.com",
-                pass: "some-password"
+                user: envHandler('MAILER'),
+                pass: envHandler('MLRPASS')
             }
         });
 
         const mailOptions = {
-            from: "your-email@some.com",
+            from: envHandler('MAILER'),
             to: user.email,
             subject: "Confirmation of Slot Booking",
             text: `Your slot is successfully booked from ${slot.startTime} to ${slot.endTime} on Day ${slot.day} of Gravitas` 
