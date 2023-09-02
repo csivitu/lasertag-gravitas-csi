@@ -8,10 +8,21 @@ const VerifyUserController = catchAsync(
         let {email, otp} = req.body;
 
         const user = await User.findOne({email: email});
-        if (!user || user.otp != otp) {
-            return res.status(400).json({error: "Invalid Email ID or OTP"});
+        if (!user) {
+            return res.status(400).json({error: "Invalid Email ID"});
         }
 
+        if (user.otpAttempts >= envHandler('MAXOTPATTEMPTS')) {
+            return res.status(400).json({error: 
+                `OTP verification attempts exceeded ${envHandler('MAXOTPATTEMPTS')}. Please login again.`});
+        }
+
+        if (user.otp != otp) {
+            user.otpAttempts += 1;
+            return res.status(400).json({error: "Invalid OTP."});
+        }
+
+        user.otpAttempts = 0;
         const token = jwt.sign({userID: user._id}, envHandler('JWTSecret'), {expiresIn: '12h'});
         return res.json({token});
     }

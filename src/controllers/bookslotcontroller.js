@@ -24,7 +24,6 @@ const BookSlotController = catchAsync(
         user.slotBooked = slot;
         await Promise.all([slot.save(), user.save()]);
 
-        // Sending slot booking confirmation mail is left
         const transporter = nodemailer.createTransport({
             service: "Gmail",
             auth: {

@@ -16,10 +16,6 @@ const LoginController = catchAsync(
             return res.status(400).json({error: "Invalid Email ID"});
         }
 
-        if (user.scope == "ADMIN") {
-            return res.status(200).json({message: "Verified as ADMIN", isAdmin: true});
-        }
-
         const generatedOTP = otpGenerator.generate(4, {digits: true, upperCase: false, specialChars: false});
 
         user.otp = generatedOTP;
@@ -46,8 +42,15 @@ const LoginController = catchAsync(
                 return res.status(500).json({error: "Failed to send OTP email"});
             }
             console.log("Email sent: " + info.response);
-            return res.status(200).json({message: "OTP sent to your mail", isAdmin: false});
         });
+
+        user.otpAttempts = 0;
+
+        if (user.scope == "ADMIN") {
+            return res.status(200).json({message: "Verified as ADMIN, OTP sent.", isAdmin: true});
+        }
+
+        return res.status(200).json({message: "OTP sent to your mail", isAdmin: false});
     }
 );
 
