@@ -24,7 +24,10 @@ const VerifyUserController = catchAsync(
 
         user.otpAttempts = 0;
         const token = jwt.sign({userID: user._id}, envHandler('JWTSecret'), {expiresIn: '12h'});
-        return res.json({token});
+        if (user.scope == "ADMIN") {
+            return res.json({token, isAdmin: true});
+        }
+        return res.json({token, isAdmin: false});
     }
 );
 

@@ -46,11 +46,7 @@ const LoginController = catchAsync(
 
         user.otpAttempts = 0;
 
-        if (user.scope == "ADMIN") {
-            return res.status(200).json({message: "Verified as ADMIN, OTP sent.", isAdmin: true});
-        }
-
-        return res.status(200).json({message: "OTP sent to your mail", isAdmin: false});
+        return res.status(200).json({message: "OTP sent to your mail"});
     }
 );
 

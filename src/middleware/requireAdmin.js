@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 
 const requireAdmin = catchAsync(
     async (req, res, next) => {
-        const userID = req.userID;
+        const userID = req.userID.userID;
 
         const user = await User.findOne({_id: userID});
         if (!user) {
