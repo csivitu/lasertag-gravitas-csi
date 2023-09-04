@@ -27,8 +27,8 @@ const ChangeSlotController = catchAsync(
                 "Slot change is not allowed within 9 hours of the already booked slot."});
         }
         
-        const updatedSlot = Slot.findByIdAndUpdate(
-            oldSlot._id,
+        const updatedSlot = Slot.update(
+            {_id: oldSlot._id},
             {$pull: {slotBookedBy: user._id}},
             {new: true}
         );
