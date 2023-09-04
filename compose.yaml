@@ -5,6 +5,7 @@ services:
       - ${PORT}:${PORT}
     depends_on:
       - mongodb
+      - redis
 
   mongodb:
     image: mongo

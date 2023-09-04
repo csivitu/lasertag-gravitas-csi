@@ -1,5 +1,6 @@
 import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
+import redis from "../initializers/redis.js";
 import otpGenerator from "otp-generator";
 import nodemailer from "nodemailer";
 import envHandler from "../helpers/envHandler.js";
@@ -18,8 +19,10 @@ const LoginController = catchAsync(
 
         const generatedOTP = otpGenerator.generate(4, {digits: true, upperCase: false, specialChars: false});
 
-        user.otp = generatedOTP;
-        await user.save();
+        const otpKey = `${user._id}:otp`;
+        const attemptKey = `${user._id}:otpAttempts`;
+        await redis.setex(otpKey, 300, generatedOTP);
+        await redis.set(attemptKey, 0);
 
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -43,8 +46,6 @@ const LoginController = catchAsync(
             }
             console.log("Email sent: " + info.response);
         });
-
-        user.otpAttempts = 0;
 
         return res.status(200).json({message: "OTP sent to your mail"});
     }
