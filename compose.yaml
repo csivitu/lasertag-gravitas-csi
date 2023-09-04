@@ -1,7 +1,17 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: lasertag-backend
     ports:
       - ${PORT}:${PORT}
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
