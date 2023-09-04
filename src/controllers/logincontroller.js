@@ -22,6 +22,7 @@ const LoginController = catchAsync(
         const otpKey = `${user._id}:otp`;
         const attemptKey = `${user._id}:otpAttempts`;
         await redis.setex(otpKey, 300, generatedOTP);
+        console.log("Generated OTP: " + generatedOTP); // For testing; will be removed.
         await redis.set(attemptKey, 0);
 
         const transporter = nodemailer.createTransport({

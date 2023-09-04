@@ -5,4 +5,6 @@ const redis = new Redis({
     port: 6379
 });
 
+console.log("Connected to Redis!");
+
 export default redis;
