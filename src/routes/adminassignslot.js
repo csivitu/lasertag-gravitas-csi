@@ -5,6 +5,6 @@ import AdminAssignSlotController from "../controllers/adminassignslotcontroller.
 
 const adminassignslot = express.Router();
 
-adminassignslot.get("/", protect, requireAdmin, AdminAssignSlotController);
+adminassignslot.post("/", protect, requireAdmin, AdminAssignSlotController);
 
 export default adminassignslot;
