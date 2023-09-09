@@ -13,7 +13,7 @@ const UserInfoController = catchAsync(
         });
 
         Logger.info(`${user.email} retrieved user info.`);
-        return res.status(200).json({regno: user.regno, email: user.email, slotBooked: user.slotBooked});
+        return res.status(200).json(user);
     }
 );
 

@@ -13,6 +13,7 @@ const requireAdmin = catchAsync(
             return res.status(400).json({error: "User not authorized as ADMIN"});
         }
 
+        req.admin = {adminMail: user.email};
         next();
     }
 );

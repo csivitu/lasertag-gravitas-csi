@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import envHandler from "../helpers/envHandler.js";
 import Slot from "./slotModel.js";
 
 const userSchema = new mongoose.Schema({
