@@ -2,7 +2,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import envHandler from "../helpers/envHandler.js";
 import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
-import nodemailer from "nodemailer";
+import transporter from "../initializers/transporter.js";
 import Logger from "../initializers/logger.js";
 
 const BookSlotController = catchAsync(
@@ -25,14 +25,6 @@ const BookSlotController = catchAsync(
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
         await Promise.all([slot.save(), user.save()]);
-
-        const transporter = nodemailer.createTransport({
-            service: "Gmail",
-            auth: {
-                user: envHandler('MAILER'),
-                pass: envHandler('MLRPASS')
-            }
-        });
 
         const mailOptions = {
             from: envHandler('MAILER'),

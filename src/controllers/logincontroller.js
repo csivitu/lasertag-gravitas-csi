@@ -2,7 +2,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import redis from "../initializers/redis.js";
 import otpGenerator from "otp-generator";
-import nodemailer from "nodemailer";
+import transporter from "../initializers/transporter.js";
 import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
 
@@ -24,14 +24,6 @@ const LoginController = catchAsync(
         const attemptKey = `${user._id}:otpAttempts`;
         await redis.setex(otpKey, 300, generatedOTP);
         await redis.set(attemptKey, 0);
-
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                user: envHandler('MAILER'),
-                pass: envHandler('MLRPASS')
-            }
-        });
 
         const mailOptions = {
             from: envHandler('MAILER'),
