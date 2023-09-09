@@ -1,5 +1,6 @@
 import catchAsync from "../helpers/catchAsync.js";
 import Slot from "../models/slotModel.js";
+import Logger from "../initializers/logger.js";
 
 const SlotInfoController = catchAsync(
     async (req, res) => {
