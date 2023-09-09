@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import catchAsync from "../helpers/catchAsync.js";
 
 const requireAdmin = catchAsync(
     async (req, res, next) => {
