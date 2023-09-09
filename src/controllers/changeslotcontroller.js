@@ -31,17 +31,10 @@ const ChangeSlotController = catchAsync(
             return res.status(400).json({error: 
                 "Slot change is not allowed within 9 hours of the already booked slot."});
         }
-        
-        const updatedSlot = Slot.update(
-            {_id: oldSlot._id},
-            {$pull: {slotBookedBy: user._id}},
-            {new: true}
-        );
 
-        if (!updatedSlot) {
-            Logger.error("Server-side DB error: Unable to update slot in change slot.");
-            return res.status(500).json({error: "Unable to change slot."});
-        }
+        oldSlot.slotBookedBy = oldSlot.slotBookedBy.filter(
+            (id) => id.toString() != (user._id).toString()
+        );
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;

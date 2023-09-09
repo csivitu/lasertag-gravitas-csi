@@ -26,20 +26,20 @@ const LoginController = catchAsync(
         await redis.setex(otpKey, 300, generatedOTP);
         await redis.set(attemptKey, 0);
 
-        const mailOptions = {
-            from: envHandler('MAILER'),
-            to: email,
-            subject: "OTP Verification",
-            text: `Your OTP for Verification is: ${generatedOTP}`
-        };
+        // const mailOptions = {
+        //     from: envHandler('MAILER'),
+        //     to: email,
+        //     subject: "OTP Verification",
+        //     text: `Your OTP for Verification is: ${generatedOTP}`
+        // };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                Logger.error(`Error sending OTP mail: ${error}`);
-                return res.status(500).json({error: "Failed to send OTP email"});
-            }
-            Logger.info(`OTP mail sent successfully to ${email}: ${info.response}`);
-        });
+        // transporter.sendMail(mailOptions, (error, info) => {
+        //     if (error) {
+        //         Logger.error(`Error sending OTP mail: ${error}`);
+        //         return res.status(500).json({error: "Failed to send OTP email"});
+        //     }
+        //     Logger.info(`OTP mail sent successfully to ${email}: ${info.response}`);
+        // });
 
         Logger.info(`${email} logged in successfully.`);
         return res.status(200).json({message: "OTP sent to your mail"});

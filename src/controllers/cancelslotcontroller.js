@@ -25,16 +25,9 @@ const CancelSlotController = catchAsync(
             return res.status(400).json({error: "Invalid slot."});
         }
 
-        const updatedSlot = Slot.findByIdAndUpdate(
-            slot._id,
-            {$pull: {slotBookedBy: user._id}},
-            {new: true}
+        slot.slotBookedBy = slot.slotBookedBy.filter(
+            (id) => id.toString() != (user._id).toString()
         );
-
-        if (!updatedSlot) {
-            Logger.error(`Unable to cancel slot for ${user.email}`);
-            return res.status(500).json({error: "Unable to change slot."});
-        }
 
         user.slotBooked = null;
         await Promise.all([slot.save(), user.save()]);

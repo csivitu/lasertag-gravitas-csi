@@ -26,21 +26,22 @@ const BookSlotController = catchAsync(
         user.slotBooked = slot;
         await Promise.all([slot.save(), user.save()]);
 
-        const mailOptions = {
-            from: envHandler('MAILER'),
-            to: user.email,
-            subject: "Confirmation of Slot Booking",
-            text: `Your slot is successfully booked from ${slot.startTime} to ${slot.endTime} on Day ${slot.day} of Gravitas` 
-        };
+        // const mailOptions = {
+        //     from: envHandler('MAILER'),
+        //     to: user.email,
+        //     subject: "Confirmation of Slot Booking",
+        //     text: `Your slot is successfully booked from ${slot.startTime} to ${slot.endTime} on Day ${slot.day} of Gravitas` 
+        // };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                Logger.error(`Error in sending slot booked mail (Transporter error): ${error}`);
-                return res.status(500).json({error: "Failed to send Slot Booking email"});
-            }
-            Logger.info(`Booked slot email sent for ${user.email} successfully.`);
-            return res.status(200).json({message: "Slot successfully booked."});
-        });
+        // transporter.sendMail(mailOptions, (error, info) => {
+        //     if (error) {
+        //         Logger.error(`Error in sending slot booked mail (Transporter error): ${error}`);
+        //         return res.status(500).json({error: "Failed to send Slot Booking email"});
+        //     }
+        //     Logger.info(`Booked slot email sent for ${user.email} successfully.`);
+        // });
+
+        return res.status(200).json({message: "Slot successfully booked."});
     }
 );
 
