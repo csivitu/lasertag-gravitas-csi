@@ -6,13 +6,15 @@ services:
     depends_on:
       - mongodb
       - redis
+    volumes:
+      - log-data:/app/logs
 
   mongodb:
     image: mongo
     ports:
       - 27017:27017
     volumes:
-      - mongo-data:/data
+      - mongo-data:/data/db
     
   redis:
     image: redis
@@ -21,3 +23,8 @@ services:
 
 volumes:
   mongo-data:
+    name: lasertag-data
+    driver: local
+  log-data:
+    name: log-data
+    driver: local

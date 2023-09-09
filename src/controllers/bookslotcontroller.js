@@ -3,20 +3,22 @@ import envHandler from "../helpers/envHandler.js";
 import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 import nodemailer from "nodemailer";
+import Logger from "../initializers/logger.js";
 
 const BookSlotController = catchAsync(
     async (req, res) => {
         let {slotId} = req.body;
-        let userID = req.userID.userID;
+        let {userID} = req.userID;
 
         const slot = await Slot.findById(slotId).populate("slotBookedBy");
         const user = await User.findById(userID).populate("slotBooked");
 
         if (!user) {
-            console.log("User not Found");
+            Logger.info(`${userID}: User not Found`);
             return res.status(400).json({error: "User not Found"});
         }
         if (user.slotBooked != null) {
+            Logger.info(`${user.email}: User slot already booked. Will have to click on change slot.`);
             return res.status(400).json({error: "User has already booked slot. To change, please click Change Slot."});
         }
 
@@ -41,10 +43,10 @@ const BookSlotController = catchAsync(
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                console.log(error);
+                Logger.error(`Error in sending slot booked mail (Transporter error): ${error}`);
                 return res.status(500).json({error: "Failed to send Slot Booking email"});
             }
-            console.log("Slot booking email sent: " + info.response);
+            Logger.info(`Booked slot email sent for ${user.email} successfully.`);
             return res.status(200).json({message: "Slot successfully booked."});
         });
     }
