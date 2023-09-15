@@ -4,7 +4,7 @@ import Logger from "../initializers/logger.js";
 
 const SlotInfoController = catchAsync(
     async (req, res) => {
-        const slots = await Slot.find({}, {slotBookedBy: 0})
+        const slots = await Slot.find({})
         .sort({day: 1, startTime: 1})
         .catch((err) => {
             Logger.error(`Slot retrieval/sorting error (Get Slot Info Error):  + ${err.message}`);
@@ -12,7 +12,8 @@ const SlotInfoController = catchAsync(
         });
 
         Logger.info("Successfully returned slot info as response.");
-        return res.status(200).json(slots);
+        Logger.info({_id: slots._id, startTime: slots.startTime, endTime: slots.endTime, isCarry: slots.isCarry, availability: slots.availability});
+        return res.status(200).json({_id: slots._id, startTime: slots.startTime, endTime: slots.endTime, isCarry: slots.isCarry, availability: slots.availability});
     }
 );
 
