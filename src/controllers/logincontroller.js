@@ -17,7 +17,7 @@ const LoginController = catchAsync(
             return res.status(400).json({error: "Invalid Email ID"});
         }
 
-        const generatedOTP = otpGenerator.generate(4, {digits: true, upperCase: false, specialChars: false});
+        const generatedOTP = otpGenerator.generate(6, {digits: true, upperCase: false, specialChars: false});
         console.log(`Generated OTP: ${generatedOTP}`); // For testing, will be removed
 
         const otpKey = `${user._id}:otp`;
