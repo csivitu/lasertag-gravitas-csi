@@ -2,7 +2,6 @@ import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import redis from "../initializers/redis.js";
 import otpGenerator from "otp-generator";
-import transporter from "../initializers/transporter.js";
 import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
 
@@ -26,22 +25,27 @@ const LoginController = catchAsync(
         await redis.setex(otpKey, 300, generatedOTP);
         await redis.set(attemptKey, 0);
 
-        // const mailOptions = {
-        //     from: envHandler('MAILER'),
-        //     to: email,
-        //     subject: "OTP Verification",
-        //     text: `Your OTP for Verification is: ${generatedOTP}`
-        // };
+        await fetch(envHandler('MAILER'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                to: email,
+                from: "Team CSI <Askcsivit@gmail.com>",
+                subject: "OTP Verification - CSI Lasertag",
+                text: `Your Generated OTP for LaserTag login is: ${generatedOTP}`,
+                auth: envHandler('MLRPASS')
+            })
+        })
+        .then((info) => {
+            Logger.info(`${email} logged in successfully: ${info}`);
+        })
+        .catch((err) => {
+            Logger.error(`Mailer Error: ${err}: Unable to send mail for ${email}.`);
+            return res.status(500).json({error: "Unable to send Mail"});
+        });
 
-        // transporter.sendMail(mailOptions, (error, info) => {
-        //     if (error) {
-        //         Logger.error(`Error sending OTP mail: ${error}`);
-        //         return res.status(500).json({error: "Failed to send OTP email"});
-        //     }
-        //     Logger.info(`OTP mail sent successfully to ${email}: ${info.response}`);
-        // });
-
-        Logger.info(`${email} logged in successfully.`);
         return res.status(200).json({message: "OTP sent to your mail"});
     }
 );

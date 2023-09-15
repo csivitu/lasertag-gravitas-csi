@@ -2,7 +2,6 @@ import catchAsync from "../helpers/catchAsync.js";
 import envHandler from "../helpers/envHandler.js";
 import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
-import transporter from "../initializers/transporter.js";
 import Logger from "../initializers/logger.js";
 
 const BookSlotController = catchAsync(
@@ -26,20 +25,26 @@ const BookSlotController = catchAsync(
         user.slotBooked = slot;
         await Promise.all([slot.save(), user.save()]);
 
-        // const mailOptions = {
-        //     from: envHandler('MAILER'),
-        //     to: user.email,
-        //     subject: "Confirmation of Slot Booking",
-        //     text: `Your slot is successfully booked from ${slot.startTime} to ${slot.endTime} on Day ${slot.day} of Gravitas` 
-        // };
-
-        // transporter.sendMail(mailOptions, (error, info) => {
-        //     if (error) {
-        //         Logger.error(`Error in sending slot booked mail (Transporter error): ${error}`);
-        //         return res.status(500).json({error: "Failed to send Slot Booking email"});
-        //     }
-        //     Logger.info(`Booked slot email sent for ${user.email} successfully.`);
-        // });
+        await fetch(envHandler('MAILER'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                to: email,
+                from: "Team CSI <Askcsivit@gmail.com>",
+                subject: "OTP Verification - CSI Lasertag",
+                text: `Your Generated OTP for LaserTag login is: ${generatedOTP}`,
+                auth: envHandler('MLRPASS')
+            })
+        })
+        .then((info) => {
+            Logger.info(`${email} logged in successfully: ${info}`);
+        })
+        .catch((err) => {
+            Logger.error(`Mailer Error: ${err}: Unable to send mail for ${email}.`);
+            return res.status(500).json({error: "Unable to send Mail"});
+        });
 
         return res.status(200).json({message: "Slot successfully booked."});
     }
