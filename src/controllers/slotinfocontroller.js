@@ -11,9 +11,16 @@ const SlotInfoController = catchAsync(
             return res.status(500).json({error: "Unable to retrieve/sort Slots from Database"});
         });
 
+        const excludedField = "slotBookedBy";
+        const userSlots = await slots.map((document) => {
+            let docjson = document.toJSON();
+            const {[excludedField]: slotBookedBy, ...filtered} = docjson;
+            return filtered;
+        });
+
         Logger.info("Successfully returned slot info as response.");
-        Logger.info({_id: slots._id, startTime: slots.startTime, endTime: slots.endTime, isCarry: slots.isCarry, availability: slots.availability});
-        return res.status(200).json({_id: slots._id, startTime: slots.startTime, endTime: slots.endTime, isCarry: slots.isCarry, availability: slots.availability});
+        Logger.info(`Returned slot info for: ${userSlots.length} slots.`);
+        return res.status(200).json(userSlots);
     }
 );
 

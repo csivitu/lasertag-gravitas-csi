@@ -39,7 +39,7 @@ const BookSlotController = catchAsync(
             })
         })
         .then((info) => {
-            Logger.info(`${email} logged in successfully: ${info}`);
+            Logger.info(`${email} logged in successfully: ${info.message}`);
         })
         .catch((err) => {
             Logger.error(`Mailer Error: ${err}: Unable to send mail for ${email}.`);
