@@ -1,7 +1,6 @@
 import express from "express";
 import envHandler from "./helpers/envHandler.js";
 import connectToDB from "./initializers/DB.js";
-import Logger from "./initializers/logger.js";
 import expressMongoSanitize from "express-mongo-sanitize";
 import login from "./routes/login.js";
 import verifyuser from "./routes/verifyuser.js";
@@ -36,5 +35,5 @@ app.use("/admin-assign-slot", adminassignslot);
 app.use("/create-data", createdata);
 
 app.listen(port, () => {
-    Logger.info(`Server running at http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}`);
 });
