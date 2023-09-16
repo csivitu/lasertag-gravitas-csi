@@ -22,6 +22,10 @@ const ChangeSlotController = catchAsync(
             Logger.info(`${user.email} has invalid booked slot.`);
             return res.status(400).json({error: "Already booked slot is invalid."});
         }
+        if (slot._id.toString() == oldSlot._id.toString()) {
+            Logger.info(`${user.email} attempted an invalid change of slots.`);
+            return res.status(400).json({error: "Pleae select a different slot to change to."});
+        }
         if (oldSlot.startTime.getTime() < new Date().getTime()) {
             Logger.info(`${user.email} attempted change when booked slot time has already passed.`);
             return res.status(400).json({error: "Booked slot time has already passed."});

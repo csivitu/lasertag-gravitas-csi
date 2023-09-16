@@ -5,11 +5,7 @@ import Slot from "../models/slotModel.js";
 const verifyslot = catchAsync(
     async (req, res, next) => {
         let {slotId} = req.body;
-        const slot = await Slot.findById(slotId).populate("slotBookedBy")
-        .catch((err) => {
-            console.log("Error retrieving slot data: " + err.message);
-            return res.status(500).json({error: "Slot retrieval error from database."});
-        });
+        const slot = await Slot.findById(slotId).populate("slotBookedBy");
 
         if (!slot) {
             return res.status(400).json({error: "Invalid Slot / Slot not Found"});
