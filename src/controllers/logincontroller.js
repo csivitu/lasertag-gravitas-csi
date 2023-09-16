@@ -18,7 +18,11 @@ const LoginController = catchAsync(
             return res.status(400).json({error: "Invalid Email ID"});
         }
 
-        const parsedPhoneNumber = parsePhoneNumber(phoneno);
+        const parsedPhoneNumber = await parsePhoneNumber(phoneno)
+        .catch((err) => {
+            Logger.info(`Invalid number. Phone ${phoneno} unable to parsed.`);
+            return res.status(400).json({error: "Invalid number. Phone number unable to parsed."});
+        });
 
         if (!parsedPhoneNumber) {
             Logger.info(`Invalid number. Phone ${phoneno} unable to parsed.`);
