@@ -37,6 +37,7 @@ const CreateDataController = catchAsync(
         .then(() => {console.log("Slot successfully created.")})
         .catch((err) => {console.log("Slot unable to be created." + err)});
 
+        Logger.info("Dummy data created.");
         return res.status(200).json({message: "Dummy data succesfully created."});
     }
 );
