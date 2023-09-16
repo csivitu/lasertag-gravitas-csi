@@ -13,10 +13,12 @@ import adminslotinfo from "./routes/adminslotinfo.js";
 import admincancelslot from "./routes/admincancelslot.js";
 import adminassignslot from "./routes/adminassignslot.js";
 import createdata from "./routes/createdata.js";
+import cors from "cors";
 
 const app = express();
 const port = envHandler('PORT');
 
+app.use(cors());
 app.use(express.json());
 app.use(expressMongoSanitize());
 

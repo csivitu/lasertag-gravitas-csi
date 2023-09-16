@@ -18,7 +18,13 @@ const LoginController = catchAsync(
             return res.status(400).json({error: "Invalid Email ID"});
         }
 
-        const parsedPhoneNumber = parsePhoneNumber(phoneno);
+        let parsedPhoneNumber;
+        try {
+            parsedPhoneNumber = parsePhoneNumber(phoneno);
+        } catch (err) {
+            Logger.info(`Invalid number. Phone ${phoneno} unable to parsed. Error: ${err}`);
+            return res.status(400).json({error: "Invalid number. Phone number unable to parsed."});
+        }
 
         if (!parsedPhoneNumber) {
             Logger.info(`Invalid number. Phone ${phoneno} unable to parsed.`);
@@ -30,7 +36,8 @@ const LoginController = catchAsync(
             return res.status(400).json({error: 
                 "Invalid phone number entered. Please enter correct number."});
         }
-        user.phoneno = phoneno;
+        user.phoneno = parsedPhoneNumber.number;
+        Logger.info(`Phone number ${user.phoneno} saved for ${email}.`);
 
         const generatedOTP = otpGenerator.generate(6, {digits: true, upperCase: false, specialChars: false});
         console.log(`Generated OTP: ${generatedOTP}`); // For testing, will be removed
