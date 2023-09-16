@@ -1,6 +1,7 @@
 import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 import catchAsync from "../helpers/catchAsync.js";
+import Logger from "../initializers/logger.js";
 
 const CreateDataController = catchAsync(
     async (req, res) => {
