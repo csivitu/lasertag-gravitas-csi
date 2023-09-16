@@ -12,6 +12,10 @@ const CreateDataController = catchAsync(
                 regno: "22BCE2700",
                 phoneno: "7483555328",
                 email: "yoswal99@gmail.com"
+            },
+            {
+                regno: "22BKT0060",
+                email: "manaslaud@hotmail.com"
             }
         ])
         .then((createdUser) => {
