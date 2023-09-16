@@ -4,11 +4,12 @@ import redis from "../initializers/redis.js";
 import otpGenerator from "otp-generator";
 import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
+import validate from "validate-phone-number-node-js";
 
 const LoginController = catchAsync(
     async (req, res) => {
-        let {regno, email} = req.body;
-        regno = regno.trim();
+        let {phoneno, email} = req.body;
+        phoneno = phoneno.trim();
         email = email.trim();
 
         const user = await User.findOne({email: email});
@@ -16,6 +17,13 @@ const LoginController = catchAsync(
         {
             return res.status(400).json({error: "Invalid Email ID"});
         }
+
+        if (!validate(phoneno)) {
+            Logger.info(`${email} entered an invalid phone number.`);
+            return res.status(400).json({error: "Invalid phone number entered. Please check and enter again."});
+        }
+
+        user.phoneno = phoneno;
 
         const generatedOTP = otpGenerator.generate(6, {digits: true, upperCase: false, specialChars: false});
         console.log(`Generated OTP: ${generatedOTP}`); // For testing, will be removed
@@ -46,6 +54,7 @@ const LoginController = catchAsync(
             return res.status(500).json({error: "Unable to send Mail"});
         });
 
+        await user.save();
         return res.status(200).json({message: "OTP sent to your mail"});
     }
 );

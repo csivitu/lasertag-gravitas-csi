@@ -33,6 +33,7 @@
     "mongoose": "^7.4.3",
     "nodemailer": "^6.9.4",
     "otp-generator": "^4.0.1",
+    "validate-phone-number-node-js": "^0.0.1",
     "winston": "^3.10.0"
   }
 }
