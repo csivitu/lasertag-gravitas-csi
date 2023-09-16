@@ -30,6 +30,7 @@ const CancelSlotController = catchAsync(
         );
 
         user.slotBooked = null;
+        user.QR.data = null;
         await Promise.all([slot.save(), user.save()]);
         Logger.info(`${user.email} successfully cancelled slot.`);
         return res.status(200).json({message: "Slot successfully cancelled."});
