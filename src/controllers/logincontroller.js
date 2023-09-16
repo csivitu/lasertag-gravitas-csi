@@ -4,7 +4,7 @@ import redis from "../initializers/redis.js";
 import otpGenerator from "otp-generator";
 import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
-import validate from "validate-phone-number-node-js";
+import { parsePhoneNumber, isValidNumber } from "libphonenumber-js";
 
 const LoginController = catchAsync(
     async (req, res) => {
@@ -18,11 +18,18 @@ const LoginController = catchAsync(
             return res.status(400).json({error: "Invalid Email ID"});
         }
 
-        if (!validate(phoneno)) {
-            Logger.info(`${email} entered an invalid phone number.`);
-            return res.status(400).json({error: "Invalid phone number entered. Please check and enter again."});
+        const parsedPhoneNumber = parsePhoneNumber(phoneno);
+
+        if (!parsedPhoneNumber) {
+            Logger.info(`Invalid number. Phone ${phoneno} unable to parsed.`);
+            return res.status(400).json({error: "Invalid number. Phone number unable to parsed."});
         }
 
+        if (!parsedPhoneNumber.isValid()) {
+            Logger.info(`${email} entered an invalid phone number.`);
+            return res.status(400).json({error: 
+                "Invalid phone number entered. Please enter correct number."});
+        }
         user.phoneno = phoneno;
 
         const generatedOTP = otpGenerator.generate(6, {digits: true, upperCase: false, specialChars: false});
