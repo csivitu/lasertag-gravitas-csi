@@ -24,6 +24,14 @@ const CancelSlotController = catchAsync(
             Logger.info(`${user.email} cancelling invalid slot.`);
             return res.status(400).json({error: "Invalid slot."});
         }
+        if (slot.startTime.getTime() <= new Date().getTime()) {
+            Logger.info(`${user.email} attempted to cancel an already started/finished slot.`);
+            return res.status(400).json({error: "Cannot cancel an already started/finished slot."});
+        }
+        if ((slot.startTime.getTime() - new Date().getTime()) < (9 * 60 * 60 * 1000)) {
+            Logger.info(`${user.email} attempted to cancel their slot within 9 hours of booked time.`);
+            return res.status(400).json({error: "Cannot cancel a slot within 9 hours of it's start time."});
+        }
 
         slot.slotBookedBy = slot.slotBookedBy.filter(
             (id) => id.toString() != (user._id).toString()
