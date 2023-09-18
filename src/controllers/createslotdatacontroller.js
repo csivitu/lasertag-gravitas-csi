@@ -11,7 +11,7 @@ const curTimezone = 'Asia/Kolkata';
 const targetTimezone = 'UTC';
 
 const CreateSlotDataController = catchAsync(
-    async () => {
+    async (req, res) => {
         for (let dy of monthDays) {
         let carrySlotTime = new moment.tz([year, month, dy, 8, 30, 0], curTimezone).tz(targetTimezone).toDate();
         for (let hr of hours) {
@@ -49,6 +49,8 @@ const CreateSlotDataController = catchAsync(
             }
         }
     }
+    
+    return res.status(200).json({message: "Slot data successfully created."});
 });
 
 export default CreateSlotDataController;

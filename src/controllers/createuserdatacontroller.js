@@ -1,13 +1,10 @@
-import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 import catchAsync from "../helpers/catchAsync.js";
 import Logger from "../initializers/logger.js";
-import moment from "moment-timezone";
 
 const CreateUserDataController = catchAsync(
     async (req, res) => {
         User.deleteMany({});
-        Slot.deleteMany({});
         User.create([
             {
                 regno: "22BCE2700",
