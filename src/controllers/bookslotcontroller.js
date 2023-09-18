@@ -3,6 +3,7 @@ import envHandler from "../helpers/envHandler.js";
 import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 import Logger from "../initializers/logger.js";
+import { generateQR } from "../helpers/generateQR.js";
 
 const BookSlotController = catchAsync(
     async (req, res) => {
@@ -21,6 +22,8 @@ const BookSlotController = catchAsync(
             return res.status(400).json({error: "User has already booked slot. To change, please click Change Slot."});
         }
 
+        const qr = await generateQR(`${envHandler('CLIENT_URL')}admin-scan/${user.regno}`)
+
         await fetch(envHandler('MAILER'), {
             method: 'POST',
             headers: {
@@ -30,7 +33,7 @@ const BookSlotController = catchAsync(
                 to: user.email,
                 from: "Team CSI <Askcsivit@gmail.com>",
                 subject: "Slot Booking Confirmation",
-                text: `You have successfully booked a slot for ${slot.startTime}`,
+                text: `You have successfully booked a slot for ${slot.startTime}. QR code: ${qr}`,
                 auth: envHandler('MLRPASS')
             })
         })
@@ -44,6 +47,7 @@ const BookSlotController = catchAsync(
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
+        user.QR.data = qr;
         await Promise.all([slot.save(), user.save()]);
 
         return res.status(200).json({message: "Slot successfully booked."});
