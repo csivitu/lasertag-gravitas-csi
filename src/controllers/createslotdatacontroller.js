@@ -5,7 +5,7 @@ import moment from "moment-timezone";
 const year = 2023;
 const month = 9;
 const monthDays = [22, 23, 24];
-const hours = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
+const hours = [8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19];
 const mins = [0, 10, 15, 25, 30, 40, 45, 55];
 const curTimezone = 'Asia/Kolkata';
 const targetTimezone = 'UTC';
@@ -21,6 +21,9 @@ const CreateSlotDataController = catchAsync(
                 let day = 1;
                 let isCarry = false;
                 if (dy == 22) {
+                    if (hr < 15) {
+                        continue;
+                    }
                     day = 1;
                 }
                 else if (dy == 23) {
