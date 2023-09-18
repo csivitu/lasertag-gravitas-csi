@@ -12,7 +12,7 @@ const slotSchema = new mongoose.Schema({
 });
 
 slotSchema.virtual('availability').get(function() {
-    return (envHandler('SLOTCAP') - this.slotBookedBy.length);
+    return (envHandler("SLOTCAP" + this.day) - this.slotBookedBy.length);
 });
 
 slotSchema.set('toJSON', {virtuals: true});
