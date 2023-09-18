@@ -3,8 +3,8 @@ import protect from "../middleware/protect.js";
 import requireSuperAdmin from "../middleware/requireSuperAdmin.js";
 import AdminExportSlotDbController from "../controllers/adminexportslotdbcontroller.js";
 
-const adminexportdb = express.Router();
+const adminexportslotdb = express.Router();
 
-adminexportdb.post("/", protect, requireSuperAdmin, AdminExportSlotDbController);
+adminexportslotdb.post("/", protect, requireSuperAdmin, AdminExportSlotDbController);
 
 export default adminexportslotdb;

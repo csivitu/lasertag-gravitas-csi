@@ -1,12 +1,13 @@
 import catchAsync from "../helpers/catchAsync.js";
 import Slot from "../models/slotModel.js";
+import User from "../models/userModel.js";
 import fs from "fs";
 
 const AdminExportSlotDbController = catchAsync(
     async (req, res) => {
         let {adminMail} = req.admin;
 
-        const slots = Slot.find({});
+        const slots = Slot.find({}).populate("slotBookedBy");
         const jsonSlots = JSON.stringify(slots, null, 2);
         const slotfile = "exportedSlots.json";
 

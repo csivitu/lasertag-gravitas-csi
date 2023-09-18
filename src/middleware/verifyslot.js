@@ -14,6 +14,9 @@ const verifyslot = catchAsync(
         if (slot.slotBookedBy.length >= envHandler(envVar)) {
             return res.status(400).json({error: "Slot capacity reached or exceeded."});
         }
+        if (!slot.toShow) {
+            return res.status(400).json({error: "The slot has been closed and won't accept bookings."});
+        }
         if (slot.startTime.getTime() < new Date().getTime()) {
             return res.status(400).json({error: "Slot has already started/finished."});
         }
