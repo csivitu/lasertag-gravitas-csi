@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import catchAsync from "../helpers/catchAsync.js";
 
-const requireAdmin = catchAsync(
+const requireSuperAdmin = catchAsync(
     async (req, res, next) => {
         const {userID} = req.userID;
 
@@ -16,4 +16,4 @@ const requireAdmin = catchAsync(
     }
 );
 
-export default requireAdmin;
+export default requireSuperAdmin;
