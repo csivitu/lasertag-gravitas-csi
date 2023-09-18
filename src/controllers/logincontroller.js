@@ -11,6 +11,7 @@ const LoginController = catchAsync(
         let {phoneno, email} = req.body;
         phoneno = phoneno.trim();
         email = email.trim();
+        email = email.toLowerCase();
 
         const user = await User.findOne({email: email});
         if (!user)
