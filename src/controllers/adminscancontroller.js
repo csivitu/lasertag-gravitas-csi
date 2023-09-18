@@ -3,8 +3,8 @@ import Logger from "../initializers/logger.js";
 import User from "../models/userModel.js";
 
 const AdminScan = catchAsync(async (req, res) => {
-  const { regno } = req.params;
-  const user = await User.find({ regno: regno }).populate("slotBooked");
+  const { email } = req.params;
+  const user = await User.find({ email: email }).populate("slotBooked");
   if (!user) {
     return res.status(400).json({ error: "Invalid User ID" });
   }
@@ -14,7 +14,7 @@ const AdminScan = catchAsync(async (req, res) => {
   user.QR.isScanned = true;
   await user.save();
 
-  Logger.info(`Successfully scanned QR code for user ${regno}.`);
+  Logger.info(`Successfully scanned QR code for user ${email}.`);
   return res.status(200).json({ scanned: true, slot: user.slotBooked });
 });
 

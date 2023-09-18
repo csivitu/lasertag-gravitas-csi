@@ -22,7 +22,7 @@ const BookSlotController = catchAsync(
             return res.status(400).json({error: "User has already booked slot. To change, please click Change Slot."});
         }
 
-        const qr = await generateQR(`${envHandler('CLIENT_URL')}admin-scan/${user.regno}`)
+        const qr = await generateQR(`${envHandler('CLIENT_URL')}admin-scan/${user.email}`)
 
         await fetch(envHandler('MAILER'), {
             method: 'POST',

@@ -5,6 +5,6 @@ import AdminScan from "../controllers/adminscancontroller.js";
 
 const adminscan = express.Router();
 
-adminscan.post("/:regno", protect, requireAdmin, AdminScan);
+adminscan.get("/:email", protect, requireAdmin, AdminScan);
 
 export default adminscan;
