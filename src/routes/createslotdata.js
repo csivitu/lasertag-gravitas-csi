@@ -1,5 +1,5 @@
 import express from "express";
-import CreateSlotDataController from "../controllers/slotdata.js";
+import CreateSlotDataController from "../controllers/createslotdatacontroller.js";
 
 const createslotdata = express.Router();
 
