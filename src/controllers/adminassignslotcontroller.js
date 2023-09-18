@@ -8,7 +8,8 @@ const AdminAssignSlotController = catchAsync(
     async (req, res) => {
         let {adminMail} = req.admin;
         let {email, slotId} = req.body;
-        email.trim();
+        email = email.trim();
+        email = email.toLowerCase();
 
         const user = await User.findOne({email: email});
 
