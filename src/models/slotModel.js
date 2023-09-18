@@ -3,8 +3,8 @@ import User from "./userModel.js";
 import envHandler from "../helpers/envHandler.js";
 
 const slotSchema = new mongoose.Schema({
-    startTime: {type: Date, required: true},
-    endTime: {type: Date, required: true},
+    startTime: {type: Date, unique: true, required: true},
+    endTime: {type: Date, unique: true, required: true},
     day: {type: Number, default: 0},
     isCarry: {type: Boolean, default: false},
     slotBookedBy: [{type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null}],
