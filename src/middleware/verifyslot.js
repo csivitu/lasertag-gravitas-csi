@@ -10,7 +10,8 @@ const verifyslot = catchAsync(
         if (!slot) {
             return res.status(400).json({error: "Invalid Slot / Slot not Found"});
         }
-        if (slot.slotBookedBy.length >= envHandler('SLOTCAP')) {
+        let envVar = "SLOTCAP" + slot.day;
+        if (slot.slotBookedBy.length >= envHandler(envVar)) {
             return res.status(400).json({error: "Slot capacity reached or exceeded."});
         }
         if (slot.startTime.getTime() < new Date().getTime()) {
