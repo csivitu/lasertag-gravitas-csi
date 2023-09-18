@@ -14,6 +14,7 @@ import admincancelslot from "./routes/admincancelslot.js";
 import adminassignslot from "./routes/adminassignslot.js";
 import createdata from "./routes/createdata.js";
 import cors from "cors";
+import adminscan from "./routes/adminscan.js";
 
 const app = express();
 const port = envHandler('PORT');
@@ -35,6 +36,7 @@ app.use("/admin-slot-info", adminslotinfo);
 app.use("/admin-cancel-slot", admincancelslot);
 app.use("/admin-assign-slot", adminassignslot);
 app.use("/create-data", createdata);
+app.use("/admin-scan", adminscan);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
