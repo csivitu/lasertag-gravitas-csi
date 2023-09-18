@@ -17,6 +17,24 @@ const CreateDataController = catchAsync(
             {
                 regno: "22BKT0060",
                 email: "manaslaud@hotmail.com"
+            },
+            {
+                email: "anubhav.aryan02@gmail.com"
+            },
+            {
+                email: "ansu.banerjee2022@vitstudent.ac.in"
+            },
+            {
+                email: "ojas.tapadia2022@vitstudent.ac.in"
+            },
+            {
+                email: "aaryan.narang2022@vitstudent.ac.in"
+            },
+            {
+                email: "sourishgupta02@gmail.com"
+            },
+            {
+                email: "alishabandyopadhyay07@gmail.com"
             }
         ])
         .then((createdUser) => {

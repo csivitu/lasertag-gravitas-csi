@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Slot from "./slotModel.js";
 
 const userSchema = new mongoose.Schema({
-  regno: { type: String, required: true, unique: true },
+  regno: { type: String, default: null, unique: true },
   phoneno: { type: String, default: null },
   email: { type: String, required: true, unique: true },
   slotBooked: {
