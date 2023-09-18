@@ -2,6 +2,7 @@ import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 import catchAsync from "../helpers/catchAsync.js";
 import Logger from "../initializers/logger.js";
+import moment from "moment-timezone";
 
 const CreateDataController = catchAsync(
     async (req, res) => {
@@ -27,14 +28,32 @@ const CreateDataController = catchAsync(
 
         Slot.create([
             {
-                startTime: new Date("2023-09-23T09:00:00Z"),
-                endTime: new Date("2023-09-23T09:10:00Z"),
+                startTime: new moment.tz("2023-09-17T08:00:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-17T08:10:00", 'Asia/Kolkata').utc().toDate(),
+                day: 1,
+                isCarry: true
+            },
+            {
+                startTime: new moment.tz("2023-09-17T08:15:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-17T08:25:00", 'Asia/Kolkata').utc().toDate(),
+                day: 1,
+                isCarry: true
+            },
+            {
+                startTime: new moment.tz("2023-09-17T08:30:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-17T08:40:00", 'Asia/Kolkata').utc().toDate(),
+                day: 1,
+                isCarry: true
+            },
+            {
+                startTime: new moment.tz("2023-09-17T08:45:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-17T08:55:00", 'Asia/Kolkata').utc().toDate(),
                 day: 1,
                 isCarry: false
             },
             {
-                startTime: new Date("2023-09-23T09:15:00Z"),
-                endTime: new Date("2023-09-23T09:25:00Z"),
+                startTime: new moment.tz("2023-09-17T09:00:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-17T09:10:00", 'Asia/Kolkata').utc().toDate(),
                 day: 1,
                 isCarry: false
             }
