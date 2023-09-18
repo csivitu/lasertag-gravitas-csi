@@ -4,6 +4,7 @@ import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 import Logger from "../initializers/logger.js";
 import { generateQR } from "../helpers/generateQR.js";
+import moment from "moment-timezone";
 
 const BookSlotController = catchAsync(
     async (req, res) => {
@@ -23,6 +24,7 @@ const BookSlotController = catchAsync(
         }
 
         const qr = await generateQR(`${envHandler('CLIENT_URL')}admin-scan/${user.email}`)
+        const iststartTime = moment.tz(slot.startTime, 'UTC').tz('Asia/Kolkata');
 
         await fetch(envHandler('MAILER'), {
             method: 'POST',
@@ -34,7 +36,7 @@ const BookSlotController = catchAsync(
                 from: "Team CSI <Askcsivit@gmail.com>",
                 subject: "Slot Booking Confirmation",
                 html: 
-                `<h3>You have successfully booked a slot for ${slot.startTime}.<br>QR code:<br></h3><div style = "width: 400px; height: 400px">${qr}</div>`,
+                `<h3>You have successfully booked a slot for ${iststartTime}.<br>QR code:<br></h3><div style = "width: 400px; height: 400px">${qr}</div>`,
                 auth: envHandler('MLRPASS')
             })
         })

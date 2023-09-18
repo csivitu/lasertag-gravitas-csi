@@ -2,6 +2,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import Slot from "../models/slotModel.js";
 import Logger from "../initializers/logger.js";
+import moment from "moment-timezone";
 
 const ChangeSlotController = catchAsync(
     async (req, res) => {
@@ -42,6 +43,31 @@ const ChangeSlotController = catchAsync(
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
+        const istoldTime = moment.tz(oldSlot.startTime, 'UTC').tz('Asia/Kolkata');
+        const istnewTime = moment.tz(slot.startTime, 'UTC').tz('Asia/Kolkata');
+
+        await fetch(envHandler('MAILER'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                to: user.email,
+                from: "Team CSI <Askcsivit@gmail.com>",
+                subject: "Slot Change Confirmation",
+                html: 
+                `<h3>You have successfully changed your slot from ${istoldTime} to ${istnewTime}.<br>QR code:<br></h3><div style = "width: 400px; height: 400px">${user.QR.data}</div>`,
+                auth: envHandler('MLRPASS')
+            })
+        })
+        .then((info) => {
+            Logger.info(`${user.email} booked slot successfully: ${info.message}`);
+        })
+        .catch((err) => {
+            Logger.error(`Mailer Error: ${err}: Unable to send mail for ${user.email} for slot booking.`);
+            return res.status(500).json({error: "Unable to send Mail"});
+        });
+
         await Promise.all([oldSlot.save(), slot.save(), user.save()]);
 
         Logger.info(`${user.email} successfully changed slot to ${slot.startTime}.`);

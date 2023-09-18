@@ -74,6 +74,18 @@ const CreateDataController = catchAsync(
                 endTime: new moment.tz("2023-09-22T09:10:00", 'Asia/Kolkata').utc().toDate(),
                 day: 1,
                 isCarry: false
+            },
+            {
+                startTime: new moment.tz("2023-09-17T08:00:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-17T08:10:00", 'Asia/Kolkata').utc().toDate(),
+                day: 1,
+                isCarry: false
+            },
+            {
+                startTime: new moment.tz("2023-09-17T22:00:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-17T22:10:00", 'Asia/Kolkata').utc().toDate(),
+                day: 1,
+                isCarry: false
             }
         ])
         .then(() => {console.log("Slot successfully created.")})
