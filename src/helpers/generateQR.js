@@ -1,5 +1,5 @@
 import QRCode from "qrcode";
-import Logger from "../initializers/logger";
+import Logger from "../initializers/logger.js";
 
 export const generateQR = async (text) => {
   try {

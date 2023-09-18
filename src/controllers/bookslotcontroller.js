@@ -33,7 +33,7 @@ const BookSlotController = catchAsync(
                 to: user.email,
                 from: "Team CSI <Askcsivit@gmail.com>",
                 subject: "Slot Booking Confirmation",
-                text: `You have successfully booked a slot for ${slot.startTime}. QR code: ${qr}`,
+                text: `You have successfully booked a slot for ${slot.startTime}.\nQR code: ${qr}`,
                 auth: envHandler('MLRPASS')
             })
         })

@@ -28,32 +28,32 @@ const CreateDataController = catchAsync(
 
         Slot.create([
             {
-                startTime: new moment.tz("2023-09-17T08:00:00", 'Asia/Kolkata').utc().toDate(),
-                endTime: new moment.tz("2023-09-17T08:10:00", 'Asia/Kolkata').utc().toDate(),
+                startTime: new moment.tz("2023-09-22T08:00:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-22T08:10:00", 'Asia/Kolkata').utc().toDate(),
                 day: 1,
                 isCarry: true
             },
             {
-                startTime: new moment.tz("2023-09-17T08:15:00", 'Asia/Kolkata').utc().toDate(),
-                endTime: new moment.tz("2023-09-17T08:25:00", 'Asia/Kolkata').utc().toDate(),
+                startTime: new moment.tz("2023-09-22T08:15:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-22T08:25:00", 'Asia/Kolkata').utc().toDate(),
                 day: 1,
                 isCarry: true
             },
             {
-                startTime: new moment.tz("2023-09-17T08:30:00", 'Asia/Kolkata').utc().toDate(),
-                endTime: new moment.tz("2023-09-17T08:40:00", 'Asia/Kolkata').utc().toDate(),
+                startTime: new moment.tz("2023-09-22T08:30:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-22T08:40:00", 'Asia/Kolkata').utc().toDate(),
                 day: 1,
                 isCarry: true
             },
             {
-                startTime: new moment.tz("2023-09-17T08:45:00", 'Asia/Kolkata').utc().toDate(),
-                endTime: new moment.tz("2023-09-17T08:55:00", 'Asia/Kolkata').utc().toDate(),
+                startTime: new moment.tz("2023-09-22T08:45:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-22T08:55:00", 'Asia/Kolkata').utc().toDate(),
                 day: 1,
                 isCarry: false
             },
             {
-                startTime: new moment.tz("2023-09-17T09:00:00", 'Asia/Kolkata').utc().toDate(),
-                endTime: new moment.tz("2023-09-17T09:10:00", 'Asia/Kolkata').utc().toDate(),
+                startTime: new moment.tz("2023-09-22T09:00:00", 'Asia/Kolkata').utc().toDate(),
+                endTime: new moment.tz("2023-09-22T09:10:00", 'Asia/Kolkata').utc().toDate(),
                 day: 1,
                 isCarry: false
             }
