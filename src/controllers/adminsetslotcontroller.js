@@ -8,7 +8,6 @@ const AdminSetSlotController = catchAsync(
         let {slotId, toShow} = req.body;
         let {adminMail} = req.admin;
 
-        const user = User.find({email: adminMail});
         const slot = Slot.findById(slotId);
 
         if (!slot) {
