@@ -1,6 +1,7 @@
 import catchAsync from "../helpers/catchAsync.js";
 import envHandler from "../helpers/envHandler.js"
 import { jwtVerifyPromisified } from "../helpers/jwtFuncs.js";
+import User from "../models/userModel.js";
 
 const protect = catchAsync(
     async (req, res, next) => {
@@ -22,6 +23,12 @@ const protect = catchAsync(
             });
 
         req.userID = decoded;
+        let {userID} = req.userID;
+
+        const user = User.findById(userID);
+        if (!user) {
+            return res.status(400).json({error: "Invalid User ID."});
+        }
         next();
     }
 );

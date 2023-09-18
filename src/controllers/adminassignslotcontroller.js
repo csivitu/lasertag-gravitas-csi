@@ -23,11 +23,6 @@ const AdminAssignSlotController = catchAsync(
             Logger.info(`ADMIN ${adminMail} attempted to assign invalid slot.`);
             return res.status(400).json({error: "Invalid Slot / Slot not Found"});
         }
-        if (slot.slotBookedBy.length >= envHandler('SLOTCAP')) {
-            Logger.info(`ADMIN ${adminMail} attempted to assign seat for ${email} for already full slot.`);
-            return res.status(400).json({error: 
-                "Slot is full. Please cancel seats before assigning a slot to the user."});
-        }
 
         if (user.slotBooked != null) {
             const oldSlot = await Slot.findById(user.slotBooked);

@@ -14,6 +14,7 @@ import admincancelslot from "./routes/admincancelslot.js";
 import adminassignslot from "./routes/adminassignslot.js";
 import createuserdata from "./routes/createuserdata.js";
 import createslotdata from "./routes/createslotdata.js";
+import adminsetslot from "./routes/adminsetslot.js";
 import cors from "cors";
 import adminscan from "./routes/adminscan.js";
 
@@ -39,6 +40,7 @@ app.use("/admin-assign-slot", adminassignslot);
 app.use("/create-user-data", createuserdata);
 app.use("/admin-scan", adminscan);
 app.use("/create-slot-data", createslotdata);
+app.use("/admin-set-slot", adminsetslot);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
