@@ -2,6 +2,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import Slot from "../models/slotModel.js";
 import Logger from "../initializers/logger.js";
+import envHandler from "../helpers/envHandler.js";
 import moment from "moment-timezone";
 
 const ChangeSlotController = catchAsync(
@@ -56,7 +57,7 @@ const ChangeSlotController = catchAsync(
                 from: "Team CSI <Askcsivit@gmail.com>",
                 subject: "Slot Change Confirmation",
                 html: 
-                `<h3>You have successfully changed your slot from ${istoldTime} to ${istnewTime}.<br>QR code:<br></h3><div style = "width: 400px; height: 400px">${user.QR.data}</div>`,
+                `<h3>You have successfully changed your slot from ${istoldTime} to ${istnewTime}.<br>QR code:<br></h3>${user.QR.data}`,
                 auth: envHandler('MLRPASS')
             })
         })

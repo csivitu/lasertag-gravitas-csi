@@ -16,7 +16,7 @@ const protect = catchAsync(
         const decoded = await jwtVerifyPromisified(token, envHandler('JWTSecret'))
             .catch((err) => {
                 return res.status(400).json({
-                    error: err.message,
+                    error: "User has not logged in or Login session has been expired/corrupted. Please login again.",
                     verified: false
                 });
             });

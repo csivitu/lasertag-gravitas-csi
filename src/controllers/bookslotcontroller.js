@@ -23,7 +23,8 @@ const BookSlotController = catchAsync(
             return res.status(400).json({error: "User has already booked slot. To change, please click Change Slot."});
         }
 
-        const qr = await generateQR(`${envHandler('CLIENT_URL')}admin-scan/${user.email}`)
+        const linkText = `${envHandler('CLIENT_URL')}admin-scan/${user.email}`;
+        const qrElement = await generateQR(linkText);
         const iststartTime = moment.tz(slot.startTime, 'UTC').tz('Asia/Kolkata');
 
         await fetch(envHandler('MAILER'), {
@@ -35,13 +36,12 @@ const BookSlotController = catchAsync(
                 to: user.email,
                 from: "Team CSI <Askcsivit@gmail.com>",
                 subject: "Slot Booking Confirmation",
-                html: 
-                `<h3>You have successfully booked a slot for ${iststartTime}.<br>QR code:<br></h3><div style = "width: 400px; height: 400px">${qr}</div>`,
+                html: `<h3>You have successfully booked a slot for ${iststartTime}.<br>QR Code:<br></h3>${qrElement}`,
                 auth: envHandler('MLRPASS')
             })
         })
         .then((info) => {
-            Logger.info(`${user.email} booked slot successfully: ${info.message}`);
+            Logger.info(`${user.email} booked slot successfully: ${info}`);
         })
         .catch((err) => {
             Logger.error(`Mailer Error: ${err}: Unable to send mail for ${user.email} for slot booking.`);
@@ -50,7 +50,7 @@ const BookSlotController = catchAsync(
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
-        user.QR.data = qr;
+        user.QR.data = qrElement;
         await Promise.all([slot.save(), user.save()]);
 
         return res.status(200).json({message: "Slot successfully booked."});
