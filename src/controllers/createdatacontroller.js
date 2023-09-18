@@ -12,11 +12,13 @@ const CreateDataController = catchAsync(
             {
                 regno: "22BCE2700",
                 phoneno: "7483555328",
-                email: "yoswal99@gmail.com"
+                email: "yoswal99@gmail.com",
+                scope: "ADMIN"
             },
             {
                 regno: "22BKT0060",
-                email: "manaslaud@hotmail.com"
+                email: "manaslaud@hotmail.com",
+                scope: "ADMIN"
             },
             {
                 email: "anubhav.aryan02@gmail.com"
