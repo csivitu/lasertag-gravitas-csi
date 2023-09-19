@@ -9,15 +9,24 @@ const AdminExportUserDbController = catchAsync(
         let {adminMail} = req.admin;
 
         const users = await User.find({}).populate("slotBooked");
-        const jsonUsers = JSON.stringify(users, null, 2);
         const userfile = "exportedUsers.json";
 
-        fs.writeFileSync(userfile, jsonUsers);
+        for (let content of users) {
+            const jsonUser = JSON.stringify(content, null, 2);
+            fs.writeFileSync(userfile, jsonUser + '\n', {flag: 'a+'}, (err) => {
+                Logger.error(`Error when writing user file: ${err}`);
+                return res.status(500).json({error: "Error when writing user file."});
+            });
+        }
+
         res.download(userfile, (err) => {
-            Logger.error(`Error exporting slot DB for ${adminMail}: ${err}`);
-            return res.status(500).json({error: "Error giving slot json file as attachment."});
+            if (err) {
+                Logger.error(`Error exporting user DB for ${adminMail}: ${err}`);
+                return res.status(500).json({error: "Error giving user json file as attachment."});
+            }
+
+            fs.unlinkSync(userfile);
         });
-        fs.unlinkSync(userfile);
     }
 );
 

@@ -4,12 +4,10 @@ import redis from "../initializers/redis.js";
 import otpGenerator from "otp-generator";
 import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
-import { parsePhoneNumber, isValidNumber } from "libphonenumber-js";
 
 const LoginController = catchAsync(
     async (req, res) => {
-        let {phoneno, email} = req.body;
-        phoneno = phoneno.trim();
+        let {email} = req.body;
         email = email.trim();
         email = email.toLowerCase();
 
@@ -19,29 +17,7 @@ const LoginController = catchAsync(
             return res.status(400).json({error: "Invalid Email ID"});
         }
 
-        let parsedPhoneNumber;
-        try {
-            parsedPhoneNumber = parsePhoneNumber(phoneno);
-        } catch (err) {
-            Logger.info(`Invalid number. Phone ${phoneno} unable to parsed. Error: ${err}`);
-            return res.status(400).json({error: "Invalid number. Phone number unable to parsed."});
-        }
-
-        if (!parsedPhoneNumber) {
-            Logger.info(`Invalid number. Phone ${phoneno} unable to parsed.`);
-            return res.status(400).json({error: "Invalid number. Phone number unable to parsed."});
-        }
-
-        if (!parsedPhoneNumber.isValid()) {
-            Logger.info(`${email} entered an invalid phone number.`);
-            return res.status(400).json({error: 
-                "Invalid phone number entered. Please enter correct number."});
-        }
-        user.phoneno = parsedPhoneNumber.number;
-        Logger.info(`Phone number ${user.phoneno} saved for ${email}.`);
-
         const generatedOTP = otpGenerator.generate(6, {digits: true, upperCase: false, specialChars: false});
-        console.log(`Generated OTP: ${generatedOTP}`); // For testing, will be removed
 
         const otpKey = `${user._id}:otp`;
         const attemptKey = `${user._id}:otpAttempts`;

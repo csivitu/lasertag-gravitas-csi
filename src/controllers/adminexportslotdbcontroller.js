@@ -9,15 +9,24 @@ const AdminExportSlotDbController = catchAsync(
         let {adminMail} = req.admin;
 
         const slots = await Slot.find({}).populate("slotBookedBy");
-        const jsonSlots = JSON.stringify(slots, null, 2);
         const slotfile = "exportedSlots.json";
 
-        fs.writeFileSync(slotfile, jsonSlots);
+        for (let content of slots) {
+            const jsonSlot = JSON.stringify(content, null, 2);
+            fs.writeFileSync(slotfile, jsonSlot + '\n', {flag: 'a+'}, (err) => {
+                Logger.error(`Error when writing slot file: ${err}`);
+                return res.status(500).json({error: "Error when writing slot file."});
+            });
+        }
+
         res.download(slotfile, (err) => {
-            Logger.error(`Error exporting slot DB for ${adminMail}: ${err}`);
-            return res.status(500).json({error: "Error giving slot json file as attachment."});
+            if (err) {
+                Logger.error(`Error exporting slot DB for ${adminMail}: ${err}`);
+                return res.status(500).json({error: "Error giving slot json file as attachment."});
+            }
+
+            fs.unlinkSync(userfile);
         });
-        fs.unlinkSync(slotfile);
     }
 );
 
