@@ -10,7 +10,7 @@ const requireAdmin = catchAsync(
             return res.status(400).json({error: "Invalid User ID"});
         }
 
-        if (user.scope != "ADMIN") {
+        if (user.scope != "ADMIN" || user.scope != "SUPERADMIN") {
             return res.status(400).json({error: "User not authorized as ADMIN"});
         }
 
