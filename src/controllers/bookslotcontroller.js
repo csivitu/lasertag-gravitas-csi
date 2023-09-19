@@ -25,7 +25,7 @@ const BookSlotController = catchAsync(
 
         const linkText = `${envHandler('CLIENT_URL')}admin-scan/${user.email}`;
         const qrElement = await generateQR(linkText);
-        const iststartTime = moment.tz(slot.startTime, 'UTC').tz('Asia/Kolkata');
+        const iststartTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
 
         await fetch(envHandler('MAILER'), {
             method: 'POST',

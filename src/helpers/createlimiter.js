@@ -8,6 +8,7 @@ const createLimiter = (limit, min, msg) => {
         legacyHeaders: false,
         message: msg
     });
+    
     return limiter;
 };
 
