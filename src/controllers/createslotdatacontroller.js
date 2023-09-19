@@ -51,7 +51,7 @@ const CreateSlotDataController = catchAsync(
                     isCarry: isCarry
                 };
 
-                Slot.create([newSlot])
+                await Slot.create([newSlot])
                 .catch((err) => {
                     console.log(`Slot unable to be created: ${err}`);
                 });

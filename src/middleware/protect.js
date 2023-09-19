@@ -25,7 +25,7 @@ const protect = catchAsync(
         req.userID = decoded;
         let {userID} = req.userID;
 
-        const user = User.findById(userID);
+        const user = await User.findById(userID);
         if (!user) {
             return res.status(400).json({error: "Invalid User ID."});
         }

@@ -1,51 +1,40 @@
-import User from "../models/userModel.js";
 import catchAsync from "../helpers/catchAsync.js";
+import User from "../models/userModel.js";
 import Logger from "../initializers/logger.js";
+import XLSX from "xlsx";
 
 const CreateUserDataController = catchAsync(
     async (req, res) => {
-        User.deleteMany({});
-        User.create([
-            {
-                regno: "22BCE2700",
-                phoneno: "7483555328",
-                email: "yoswal99@gmail.com",
-                scope: "SUPERADMIN"
-            },
-            {
-                regno: "22BKT0060",
-                email: "manaslaud@hotmail.com",
-                scope: "ADMIN"
-            },
-            {
-                email: "anubhav.aryan02@gmail.com"
-            },
-            {
-                email: "ansu.banerjee2022@vitstudent.ac.in"
-            },
-            {
-                email: "ojas.tapadia2022@vitstudent.ac.in"
-            },
-            {
-                email: "aaryan.narang2022@vitstudent.ac.in"
-            },
-            {
-                email: "sourishgupta02@gmail.com",
-                scope: "SUPERADMIN"
-            },
-            {
-                email: "alishabandyopadhyay07@gmail.com"
-            }
-        ])
-        .then((createdUser) => {
-            console.log("User Created: " + createdUser);
-        })
-        .catch((err) => {
-            console.log("Unable to create User: " + err);
-        });
+        const filepath = "/app/userdata.xlsx";
+        const workbook = XLSX.readFile(filepath);
 
-        Logger.info("Dummy data created.");
-        return res.status(200).json({message: "Dummy data succesfully created."});
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+        const jsonUsers = XLSX.utils.sheet_to_json(worksheet);
+        
+        for (let user of jsonUsers) {
+            let userName, userRegNo, userEmail, userPhone;
+            userName = user.users_name.trim();
+            if (user.registration_number) { 
+                userRegNo = user.registration_number.trim();
+            } else {userRegNo = null;}
+            userEmail = user.users_email.trim().toLowerCase();
+            userPhone = (user.users_phone.toString()).trim();
+            let newUser = {
+                name: userName,
+                regno: userRegNo,
+                email: userEmail,
+                phoneno: userPhone
+            };
+
+            await User.create([newUser])
+            .catch((err) => {
+                Logger.error(`Error creating user: ${err}`);
+                return res.status(500).json({error: `Error occurred when creating new user: ${err}`});
+            })
+        }
+
+        return res.status(400).json({message: "User Data successfully created."});
     }
 );
 
