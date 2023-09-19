@@ -34,6 +34,54 @@ const CreateUserDataController = catchAsync(
             })
         }
 
+        await User.create([
+            {
+                name: "Anubhav Aryan",
+                email: "anubhav.aryan2021@vitstudent.ac.in",
+                scope: "SUPERADMIN"
+            },
+            {
+                name: "Sourish Gupta",
+                email: "sourishgupta02@gmail.com",
+                scope: "SUPERADMIN"
+            },
+            {
+                name: "Yug Oswal",
+                email: "yoswal071@gmail.com",
+                scope: "SUPERADMIN"
+            },
+            {
+                name: "Manas Laud",
+                email: "manasgaming126@gmail.com",
+                scope: "SUPERADMIN"
+            },
+            {
+                name: "I Love Goth",
+                email: "kaushalrathi24@gmail.com",
+                scope: "SUPERADMIN"
+            },
+            {
+                name: "Alisha Bandyopadhyay",
+                email: "alisha.bandyopadhyay2021@vitstudent.ac.in",
+                scope: "SUPERADMIN"
+            },
+            {
+                name: "Ansu Banerjee",
+                email: "ansu.banerjee2022@vitstudent.ac.in",
+                scope: "ADMIN"
+            },
+            {
+                name: "Ojas Tapadia",
+                email: "ojas.tapadia2022@vitstudent.ac.in",
+                scope: "ADMIN"
+            }
+        ]);
+
+        await User.findOneAndUpdate(
+            {email: "brinda.dhingra2020@vitstudent.ac.in"},
+            {$set: {scope: "SUPERADMIN"}}
+        );
+
         return res.status(400).json({message: "User Data successfully created."});
     }
 );
