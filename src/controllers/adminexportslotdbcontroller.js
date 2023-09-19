@@ -1,6 +1,7 @@
 import catchAsync from "../helpers/catchAsync.js";
 import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
+import Logger from "../initializers/logger.js";
 import fs from "fs";
 
 const AdminExportSlotDbController = catchAsync(
