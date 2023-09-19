@@ -1,5 +1,6 @@
 import createLimiter from "../helpers/createlimiter.js";
 
-const changeslotlimiter = createLimiter(2, 24 * 60);
+const msg = "Cannot change slot more than twice in a day. Please try again later.";
+const changeslotlimiter = createLimiter(2, 24 * 60, msg);
 
 export default changeslotlimiter;
