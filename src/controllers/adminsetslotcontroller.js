@@ -16,6 +16,7 @@ const AdminSetSlotController = catchAsync(
         }
 
         slot.toShow = toShow;
+        await slot.save();
         Logger.info(`${adminMail} changed state of ${slot} to ${toShow}.`);
         return res.status(200).json({message: "Successfully changed state of selected slot."});
     }

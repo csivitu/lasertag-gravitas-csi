@@ -3,7 +3,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import moment from "moment-timezone";
 
 const year = 2023;
-const month = 9;
+const month = 8;
 const monthDays = [22, 23, 24];
 const hours = [8, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19];
 const mins = [0, 10, 15, 25, 30, 40, 45, 55];
@@ -27,13 +27,19 @@ const CreateSlotDataController = catchAsync(
                     day = 1;
                 }
                 else if (dy == 23) {
+                    if (hr == 16 && (mins[mn] < 30)) {
+                        continue;
+                    }
                     day = 2;
                 }
                 else {
+                    if (hr == 16 && (mins[mn] < 30)) {
+                        continue;
+                    }
                     day = 3;
                 }
                 if (hr == 8) {
-                    if (startTime.getTime() <= carrySlotTime.getTime()) {
+                    if (startTime.getTime() < carrySlotTime.getTime()) {
                         isCarry = true;
                     }
                 }

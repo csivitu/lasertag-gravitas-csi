@@ -10,7 +10,7 @@ const CreateUserDataController = catchAsync(
                 regno: "22BCE2700",
                 phoneno: "7483555328",
                 email: "yoswal99@gmail.com",
-                scope: "ADMIN"
+                scope: "SUPERADMIN"
             },
             {
                 regno: "22BKT0060",

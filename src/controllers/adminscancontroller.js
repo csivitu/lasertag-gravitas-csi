@@ -4,7 +4,7 @@ import User from "../models/userModel.js";
 
 const AdminScan = catchAsync(async (req, res) => {
   const { email } = req.params;
-  const user = await User.find({ email: email }).populate("slotBooked");
+  const user = await User.findOne({ email: email }).populate("slotBooked");
   if (!user) {
     return res.status(400).json({ error: "Invalid User ID" });
   }

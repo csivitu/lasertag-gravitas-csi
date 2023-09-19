@@ -43,7 +43,7 @@ const VerifyUserController = catchAsync(
 
         redis.set(attemptKey, 0);
         const token = jwt.sign({userID: user._id}, envHandler('JWTSecret'), {expiresIn: '12h'});
-        if (user.scope == "ADMIN") {
+        if (user.scope == "ADMIN" || user.scope == "SUPERADMIN") {
             Logger.info(`${email} successfully verified and logged in as ADMIN.`);
             return res.json({token, isAdmin: true});
         }
