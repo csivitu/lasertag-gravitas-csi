@@ -7,7 +7,7 @@ const AdminExportUserDbController = catchAsync(
     async (req, res) => {
         let {adminMail} = req.admin;
 
-        const users = User.find({}).populate("slotBooked");
+        const users = await User.find({}).populate("slotBooked");
         const jsonUsers = JSON.stringify(users, null, 2);
         const userfile = "exportedUsers.json";
 

@@ -7,7 +7,7 @@ const AdminExportSlotDbController = catchAsync(
     async (req, res) => {
         let {adminMail} = req.admin;
 
-        const slots = Slot.find({}).populate("slotBookedBy");
+        const slots = await Slot.find({}).populate("slotBookedBy");
         const jsonSlots = JSON.stringify(slots, null, 2);
         const slotfile = "exportedSlots.json";
 

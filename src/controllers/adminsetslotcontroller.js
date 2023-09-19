@@ -8,7 +8,7 @@ const AdminSetSlotController = catchAsync(
         let {slotId, toShow} = req.body;
         let {adminMail} = req.admin;
 
-        const slot = Slot.findById(slotId);
+        const slot = await Slot.findById(slotId);
 
         if (!slot) {
             Logger.info("Invalid Slot ID for Slot state change.");
