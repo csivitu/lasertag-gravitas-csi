@@ -30,7 +30,8 @@ const CreateUserDataController = catchAsync(
                 email: "aaryan.narang2022@vitstudent.ac.in"
             },
             {
-                email: "sourishgupta02@gmail.com"
+                email: "sourishgupta02@gmail.com",
+                scope: "SUPERADMIN"
             },
             {
                 email: "alishabandyopadhyay07@gmail.com"
