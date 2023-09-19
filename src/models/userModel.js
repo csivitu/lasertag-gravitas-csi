@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Slot from "./slotModel.js";
 
 const userSchema = new mongoose.Schema({
+  name: {type: String, default: "What's ma name?"},
   regno: { type: String, default: null },
   phoneno: { type: String, default: null },
   email: { type: String, required: true, unique: true },
