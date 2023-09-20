@@ -1,6 +1,7 @@
 import catchAsync from "../helpers/catchAsync.js";
 import Slot from "../models/slotModel.js";
 import Logger from "../initializers/logger.js";
+import moment from "moment-timezone";
 
 const SlotInfoController = catchAsync(
     async (req, res) => {
@@ -12,16 +13,21 @@ const SlotInfoController = catchAsync(
             return res.status(500).json({error: "Unable to retrieve/sort Slots from Database"});
         });
 
-        // const excludedField = "slotBookedBy";
-        // const userSlots = await slots.map((document) => {
-        //     let docjson = document.toJSON();
-        //     const {[excludedField]: slotBookedBy, ...filtered} = docjson;
-        //     return filtered;
-        // });
+        const adjustedSlots = slots.map((slot) => {
+            const adjustedStartTime = new moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC');
+            const adjustedEndTime = new moment.tz(slot.endTime.getTime() - 10 * 60 * 1000, 'UTC');
+        
+            // Create a new object with adjusted times and other properties
+            return {
+              ...slot.toObject(),
+              startTime: adjustedStartTime,
+              endTime: adjustedEndTime,
+            };
+        });
 
         Logger.info("Successfully returned slot info as response.");
-        Logger.info(`Returned slot info for: ${slots.length} slots.`);
-        return res.status(200).json(slots);
+        Logger.info(`Returned slot info for: ${adjustedSlots.length} slots.`);
+        return res.status(200).json(adjustedSlots);
     }
 );
 

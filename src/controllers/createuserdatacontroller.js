@@ -2,9 +2,11 @@ import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import Logger from "../initializers/logger.js";
 import XLSX from "xlsx";
+import envHandler from "../helpers/envHandler.js";
 
 const CreateUserDataController = catchAsync(
     async (req, res) => {
+
         const filepath = "/app/userdata.xlsx";
         const workbook = XLSX.readFile(filepath);
 
@@ -20,6 +22,7 @@ const CreateUserDataController = catchAsync(
             } else {userRegNo = null;}
             userEmail = user.users_email.trim().toLowerCase();
             userPhone = (user.users_phone.toString()).trim();
+            
             let newUser = {
                 name: userName,
                 regno: userRegNo,

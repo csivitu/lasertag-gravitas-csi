@@ -16,6 +16,7 @@ slotSchema.virtual('availability').get(function() {
 });
 
 slotSchema.set('toJSON', {virtuals: true});
+slotSchema.set('toObject', {virtuals: true});
 
 const Slot = mongoose.model('Slot', slotSchema);
 
