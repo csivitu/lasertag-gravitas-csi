@@ -1,0 +1,43 @@
+import User from "../models/userModel.js";
+import catchAsync from "../helpers/catchAsync.js";
+import Logger from "../initializers/logger.js";
+import envHandler from "../helpers/envHandler.js";
+
+const SendMailController = catchAsync(
+    async (req, res) => {
+        let {password} = req.body;
+        if (password != envHandler('SUPERADMIN_PASS')) {
+            Logger.info('Wrong password entered for creating data');
+            return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
+        }
+        
+        const users = await User.find({scope: "SUPERADMIN"});
+
+        for (let user of users) {
+
+            await fetch(envHandler('MAILER'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    to: user.email,
+                    from: "Team CSI <Askcsivit@gmail.com>",
+                    subject: "Test mail: Slot Booking Notice for LaserTag",
+                    html: `<h3>Woohooo! The website for slot booking for LaserTag is up; baby! Ooooh!</h3>`,
+                    auth: envHandler('MLRPASS')
+                })
+            })
+            .then((info) => {
+                Logger.info(`${user.email} got the notice mail successfully: ${info}`);
+            })
+            .catch((err) => {
+                Logger.error(`Mailer Error: ${err}: Unable to send mail for ${user.email} for slot booking.`);
+            });
+        }
+
+        return res.status(200).json({message: "Sent mail successfully."});
+    }
+);
+
+export default SendMailController;

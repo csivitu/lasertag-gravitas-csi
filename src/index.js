@@ -17,6 +17,7 @@ import createslotdata from "./routes/createslotdata.js";
 import adminsetslot from "./routes/adminsetslot.js";
 import adminexportslotdb from "./routes/adminexportslotdb.js";
 import adminexportuserdb from "./routes/adminexportuserdb.js";
+import sendmail from "./routes/sendmail.js";
 import cors from "cors";
 import adminscan from "./routes/adminscan.js";
 import apilimiter from "./middleware/apilimiter.js";
@@ -50,6 +51,7 @@ app.use("/create-slot-data", createslotdata);
 app.use("/admin-set-slot", adminsetslot);
 app.use("/admin-export-slot-db", adminexportslotdb);
 app.use("/admin-export-user-db", adminexportuserdb);
+app.use("/send-mail", sendmail);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
