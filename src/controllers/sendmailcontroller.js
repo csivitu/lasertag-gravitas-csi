@@ -12,7 +12,7 @@ const SendMailController = catchAsync(
             return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
         }
         
-        const users = await User.find({scope: "SUPERADMIN"});
+        const users = await User.find({});
 
         const html = fs.readFileSync('/app/src/controllers/noqr.html', 'utf8');
 
