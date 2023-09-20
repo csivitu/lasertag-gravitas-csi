@@ -32,7 +32,6 @@ app.use(expressMongoSanitize());
 
 connectToDB();
 
-app.use(apilimiter);
 app.use("/change-slot", changeslotlimiter);
 
 app.use("/login", login);

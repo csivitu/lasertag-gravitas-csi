@@ -18,7 +18,7 @@ const SendMailController = catchAsync(
 
         for (let user of users) {
 
-            await fetch(envHandler('MAILER'), {
+            fetch(envHandler('MAILER'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
