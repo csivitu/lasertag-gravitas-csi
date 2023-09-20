@@ -14,6 +14,11 @@ const targetTimezone = 'UTC';
 
 const CreateSlotDataController = catchAsync(
     async (req, res) => {
+        let {password} = req.body;
+        if (password != envHandler('SUPERADMIN_PASS')) {
+            Logger.info('Wrong password entered for creating data');
+            return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
+        }
         for (let dy of monthDays) {
         for (let hr of hours) {
             for (let mn = 0; mn < mins.length; mn += 2) {

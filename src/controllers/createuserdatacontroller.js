@@ -7,6 +7,12 @@ import envHandler from "../helpers/envHandler.js";
 const CreateUserDataController = catchAsync(
     async (req, res) => {
 
+        let {password} = req.body;
+        if (password != envHandler('SUPERADMIN_PASS')) {
+            Logger.info('Wrong password entered for creating data');
+            return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
+        }
+
         const filepath = "/app/userdata.xlsx";
         const workbook = XLSX.readFile(filepath);
 
