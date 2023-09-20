@@ -14,7 +14,7 @@ const SendMailController = catchAsync(
         
         const users = await User.find({scope: "SUPERADMIN"});
 
-        const html = fs.readFileSync('/app/src/controllers/jesus1.html', 'utf8');
+        const html = fs.readFileSync('/app/src/controllers/noqr.html', 'utf8');
 
         for (let user of users) {
 

@@ -49,7 +49,7 @@ const ChangeSlotController = catchAsync(
         const istnewDate = istnewDateTime.format('dddd, MMMM D, YYYY');
         const istnewTime = istnewDateTime.format('hh:mm:ss A');
 
-        const qrmail = fs.readFileSync('/app/src/controllers/qr.html', 'utf8');
+        const qrmail = fs.readFileSync('/app/src/controllers/finalqr.html', 'utf8');
         let customQRMail = qrmail.replace('%backend_data%', user.QR.data);
         customQRMail = customQRMail.replace('%backend_date%', istnewDate);
         customQRMail = customQRMail.replace('%backend_time%', istnewTime);

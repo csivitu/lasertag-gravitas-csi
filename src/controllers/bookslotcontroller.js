@@ -30,7 +30,7 @@ const BookSlotController = catchAsync(
         const iststartDate = iststartDateTime.format('dddd, MMMM D, YYYY');
         const iststartTime = iststartDateTime.format('hh:mm:ss A');
 
-        const qrmail = fs.readFileSync('/app/src/controllers/qr.html', 'utf8');
+        const qrmail = fs.readFileSync('/app/src/controllers/finalqr.html', 'utf8');
         let customQRMail = qrmail.replace('%backend_data%', linkText);
         customQRMail = customQRMail.replace('%backend_date%', iststartDate);
         customQRMail = customQRMail.replace('%backend_time%', iststartTime);
