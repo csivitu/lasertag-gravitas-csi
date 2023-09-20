@@ -4,6 +4,7 @@ import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 import Logger from "../initializers/logger.js";
 import { generateQR } from "../helpers/generateQR.js";
+import nodemailer from "nodemailer";
 import moment from "moment-timezone";
 import fs from "fs";
 
@@ -25,7 +26,6 @@ const BookSlotController = catchAsync(
         }
 
         const linkText = `${envHandler('CLIENT_URL')}admin-scan/${user.email}`;
-        const qrElement = await generateQR(linkText);
         const iststartDateTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
         const iststartDate = iststartDateTime.format('dddd, MMMM D, YYYY');
         const iststartTime = iststartDateTime.format('hh:mm:ss A');
@@ -35,26 +35,35 @@ const BookSlotController = catchAsync(
         customQRMail = customQRMail.replace('%backend_date%', iststartDate);
         customQRMail = customQRMail.replace('%backend_time%', iststartTime);
 
-        await fetch(envHandler('MAILER'), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                to: user.email,
-                from: "Team CSI <Askcsivit@gmail.com>",
-                subject: "Slot Booking Confirmation",
-                html: customQRMail,
-                auth: envHandler('MLRPASS')
-            })
-        })
-        .then((info) => {
-            Logger.info(`${user.email} booked slot successfully: ${info}`);
-        })
-        .catch((err) => {
-            Logger.error(`Mailer Error: ${err}: Unable to send mail for ${user.email} for slot booking.`);
-            return res.status(500).json({error: "Unable to send Mail"});
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: envHandler('MLRID'),
+                pass: envHandler('MLRPASS')
+            }
         });
+
+        // async..await is not allowed in global scope, must use a wrapper
+        async function main() {
+        // send mail with defined transport object
+        const info = await transporter.sendMail({
+            from: '"Team CSI" <askcsivit@gmail.com>', // sender address
+            to: user.email, // list of receivers
+            subject: "Slot Booking Confirmation - CSI Lasertag", // Subject line
+            html: customQRMail, // html body
+        });
+
+        console.log("Message sent: %s", info.messageId);
+        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+        //
+        // NOTE: You can go to https://forwardemail.net/my-account/emails to see your email delivery status and preview
+        //       Or you can use the "preview-email" npm package to preview emails locally in browsers and iOS Simulator
+        //       <https://github.com/forwardemail/preview-email>
+        //
+        }
+
+        main().catch(console.error);
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
