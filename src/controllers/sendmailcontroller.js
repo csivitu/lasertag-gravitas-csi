@@ -23,7 +23,7 @@ const SendMailController = catchAsync(
                 body: JSON.stringify({
                     to: user.email,
                     from: "Team CSI <Askcsivit@gmail.com>",
-                    subject: "Test mail: Slot Booking Notice for LaserTag",
+                    subject: "Slot Booking Notice for LaserTag",
                     html: `<h3>Woohooo! The website for slot booking for LaserTag is up; baby! Ooooh!</h3>`,
                     auth: envHandler('MLRPASS')
                 })
@@ -32,7 +32,7 @@ const SendMailController = catchAsync(
                 Logger.info(`${user.email} got the notice mail successfully: ${info}`);
             })
             .catch((err) => {
-                Logger.error(`Mailer Error: ${err}: Unable to send mail for ${user.email} for slot booking.`);
+                Logger.error(`Mailer Error: ${err}: Unable to send mail for ${user.email} for notice mail.`);
             });
         }
 
