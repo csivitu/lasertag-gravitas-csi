@@ -4,6 +4,7 @@ import Slot from "../models/slotModel.js";
 import Logger from "../initializers/logger.js";
 import envHandler from "../helpers/envHandler.js";
 import moment from "moment-timezone";
+import fs from "fs";
 
 const ChangeSlotController = catchAsync(
     async (req, res) => {
@@ -44,8 +45,14 @@ const ChangeSlotController = catchAsync(
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
-        const istoldTime = moment.tz(oldSlot.startTime, 'UTC').tz('Asia/Kolkata');
-        const istnewTime = moment.tz(slot.startTime, 'UTC').tz('Asia/Kolkata');
+        const istnewDateTime = moment.tz(slot.startTime, 'UTC').tz('Asia/Kolkata');
+        const istnewDate = istnewDateTime.format('dddd, MMMM D, YYYY');
+        const istnewTime = istnewDateTime.format('hh:mm:ss A');
+
+        const qrmail = fs.readFileSync('/app/src/controllers/qr.html', 'utf8');
+        let customQRMail = qrmail.replace('%backend_data%', user.QR.data);
+        customQRMail = customQRMail.replace('%backend_date%', istnewDate);
+        customQRMail = customQRMail.replace('%backend_time%', istnewTime);
 
         await fetch(envHandler('MAILER'), {
             method: 'POST',
@@ -56,8 +63,7 @@ const ChangeSlotController = catchAsync(
                 to: user.email,
                 from: "Team CSI <Askcsivit@gmail.com>",
                 subject: "Slot Change Confirmation",
-                html: 
-                `<h3>You have successfully changed your slot from ${istoldTime} to ${istnewTime}.<br>QR code:<br></h3>${user.QR.data}`,
+                html: customQRMail,
                 auth: envHandler('MLRPASS')
             })
         })

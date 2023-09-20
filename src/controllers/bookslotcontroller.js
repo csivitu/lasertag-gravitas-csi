@@ -5,6 +5,7 @@ import User from "../models/userModel.js";
 import Logger from "../initializers/logger.js";
 import { generateQR } from "../helpers/generateQR.js";
 import moment from "moment-timezone";
+import fs from "fs";
 
 const BookSlotController = catchAsync(
     async (req, res) => {
@@ -25,7 +26,14 @@ const BookSlotController = catchAsync(
 
         const linkText = `${envHandler('CLIENT_URL')}admin-scan/${user.email}`;
         const qrElement = await generateQR(linkText);
-        const iststartTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
+        const iststartDateTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
+        const iststartDate = iststartDateTime.format('dddd, MMMM D, YYYY');
+        const iststartTime = iststartDateTime.format('hh:mm:ss A');
+
+        const qrmail = fs.readFileSync('/app/src/controllers/qr.html', 'utf8');
+        let customQRMail = qrmail.replace('%backend_data%', linkText);
+        customQRMail = customQRMail.replace('%backend_date%', iststartDate);
+        customQRMail = customQRMail.replace('%backend_time%', iststartTime);
 
         await fetch(envHandler('MAILER'), {
             method: 'POST',
@@ -36,7 +44,7 @@ const BookSlotController = catchAsync(
                 to: user.email,
                 from: "Team CSI <Askcsivit@gmail.com>",
                 subject: "Slot Booking Confirmation",
-                html: `<h3>You have successfully booked a slot for ${iststartTime}.<br>QR Code:<br></h3>${qrElement}`,
+                html: customQRMail,
                 auth: envHandler('MLRPASS')
             })
         })
@@ -50,7 +58,7 @@ const BookSlotController = catchAsync(
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
-        user.QR.data = qrElement;
+        user.QR.data = linkText;
         await Promise.all([slot.save(), user.save()]);
 
         return res.status(200).json({message: "Slot successfully booked."});
