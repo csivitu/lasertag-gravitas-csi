@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import catchAsync from "../helpers/catchAsync.js";
 import Logger from "../initializers/logger.js";
 import envHandler from "../helpers/envHandler.js";
+import fs from "fs";
 
 const SendMailController = catchAsync(
     async (req, res) => {
@@ -12,6 +13,8 @@ const SendMailController = catchAsync(
         }
         
         const users = await User.find({scope: "SUPERADMIN"});
+
+        const html = fs.readFileSync('/app/src/controllers/jesus1.html', 'utf8');
 
         for (let user of users) {
 
@@ -24,7 +27,7 @@ const SendMailController = catchAsync(
                     to: user.email,
                     from: "Team CSI <Askcsivit@gmail.com>",
                     subject: "Slot Booking Notice for LaserTag",
-                    html: `<h3>Woohooo! The website for slot booking for LaserTag is up; baby! Ooooh!</h3>`,
+                    html: html,
                     auth: envHandler('MLRPASS')
                 })
             })
