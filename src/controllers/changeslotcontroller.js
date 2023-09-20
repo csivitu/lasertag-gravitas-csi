@@ -45,7 +45,7 @@ const ChangeSlotController = catchAsync(
 
         slot.slotBookedBy.push(user);
         user.slotBooked = slot;
-        const istnewDateTime = moment.tz(slot.startTime, 'UTC').tz('Asia/Kolkata');
+        const istnewDateTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
         const istnewDate = istnewDateTime.format('dddd, MMMM D, YYYY');
         const istnewTime = istnewDateTime.format('hh:mm:ss A');
 
