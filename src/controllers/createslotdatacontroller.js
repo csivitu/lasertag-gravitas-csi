@@ -33,7 +33,7 @@ const CreateSlotDataController = catchAsync(
                 else {
                     day = 3;
                 }
-                if (hr == 8 && (mins[mn] > 30)) {
+                if (hr == 8 && (mins[mn] <= 30)) {
                     isCarry = true;
                 }
                 
