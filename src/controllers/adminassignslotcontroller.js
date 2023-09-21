@@ -57,7 +57,7 @@ const AdminAssignSlotController = catchAsync(
             },
             Message: {
               Subject: {
-                Data: 'Slot Change Confirmation - CSI LaserTag',
+                Data: 'Slot Assign Confirmation - CSI LaserTag',
               },
               Body: {
                 Html: {
@@ -69,10 +69,10 @@ const AdminAssignSlotController = catchAsync(
       
         await ses.sendEmail(params).promise()
         .then(() => {
-            Logger.info(`Slot change confirmation email sent to: ${user.email}`);
+            Logger.info(`Slot assign confirmation email sent to: ${user.email}`);
         })
         .catch((err) => {
-            Logger.error(`Error sending slot changed email to ${user.email}: ${err.message}`);
+            Logger.error(`Error sending slot assignment email to ${user.email}: ${err.message}`);
         });
 
         await Promise.all([user.save(), slot.save()]);

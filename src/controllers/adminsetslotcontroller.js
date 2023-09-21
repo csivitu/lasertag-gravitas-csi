@@ -8,6 +8,11 @@ const AdminSetSlotController = catchAsync(
         let {slotId, toShow} = req.body;
         let {adminMail} = req.admin;
 
+        if (!toShow) {
+            Logger.info("State to set for slot is not defined.");
+            return res.status(400).json({error: "Slot state is not defined."});
+        }
+
         const slot = await Slot.findById(slotId);
 
         if (!slot) {
