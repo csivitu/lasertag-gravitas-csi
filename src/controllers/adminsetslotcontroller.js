@@ -1,13 +1,14 @@
 import catchAsync from "../helpers/catchAsync.js";
 import Logger from "../initializers/logger.js";
 import Slot from "../models/slotModel.js";
-import User from "../models/userModel.js";
 
 const AdminSetSlotController = catchAsync(
     async (req, res) => {
         let {slotId, toShow} = req.body;
         let {adminMail} = req.admin;
 
+        console.log("here", toShow);
+        console.log("new here", eval(toShow));
         if (!slotId) {
             Logger.error(`Invalid slotId or email entered by ADMIN ${adminMail}`);
             return res.status(400).json({error: "Invalid slotId or email."});
