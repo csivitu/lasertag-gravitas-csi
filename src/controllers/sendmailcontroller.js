@@ -19,7 +19,6 @@ const SendMailController = catchAsync(
         const emailList = users.map((user) => user.email);
         console.log(emailList);
         console.log(emailList.length);
-        return res.status(200).json({message: "Check query."});
 
         const batchSize = 14;
         const emailsPerSecond = 14;
