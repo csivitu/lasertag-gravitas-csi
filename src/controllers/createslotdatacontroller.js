@@ -3,6 +3,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import Logger from "../initializers/logger.js";
 import envHandler from "../helpers/envHandler.js";
 import moment from "moment-timezone";
+import fs from "fs";
 
 const year = 2023;
 const month = 8;
@@ -57,36 +58,56 @@ const CreateSlotDataController = catchAsync(
         // }
         
         
-        for (let dy of monthDays) {
-            const hr = 12;
-            for (let mn = 0; mn < mins.length; mn += 2) {
-                let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
-                let endTime = new moment.tz([year, month, dy, hr, mins[mn + 1], 0], curTimezone).tz(targetTimezone).toDate();
-                let day = 1;
-                if (dy == 22) {
-                    day = 1;
-                } else if (dy == 23) {
-                    day = 2;
-                } else {
-                    day = 3;
-                }
-                let newSlot = {
-                    startTime,
-                    endTime,
-                    day
-                };
+        // for (let dy of monthDays) {
+        //     const hr = 12;
+        //     for (let mn = 0; mn < mins.length; mn += 2) {
+        //         let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
+        //         let endTime = new moment.tz([year, month, dy, hr, mins[mn + 1], 0], curTimezone).tz(targetTimezone).toDate();
+        //         let day = 1;
+        //         if (dy == 22) {
+        //             day = 1;
+        //         } else if (dy == 23) {
+        //             day = 2;
+        //         } else {
+        //             day = 3;
+        //         }
+        //         let newSlot = {
+        //             startTime,
+        //             endTime,
+        //             day
+        //         };
                 
-                await Slot.create([newSlot])
-                .catch((err) => {
-                    Logger.error(`Error creating ${newSlot}: ${err.message}`);
-                    return res.status(500).json({error: "Unable to create additional slots."});
-                })
-                .then((slot) => {
-                    Logger.info(`Successfully created slot: ${slot}`);
-                })
+        //         await Slot.create([newSlot])
+        //         .catch((err) => {
+        //             Logger.error(`Error creating ${newSlot}: ${err.message}`);
+        //             return res.status(500).json({error: "Unable to create additional slots."});
+        //         })
+        //         .then((slot) => {
+        //             Logger.info(`Successfully created slot: ${slot}`);
+        //         })
+        //     }
+        // }
+
+    
+        let slots = await Slot.find({day: 1, toShow: false, isCarry: false})
+        .populate("slotBookedBy");
+        const structuredSlots = slots.map((slot) => {
+            if (slot.slotBookedBy.length > 0) {
+                const lastTime = new Date(2023, 8, 22, 12, 0, 0);
+                if (slot.startTime.getTime() < lastTime.getTime()) {
+                    const userObjs = slot.slotBookedBy;
+                    const mails = userObjs.map((user) => user.email);
+                    return {startTime: slot.startTime, users: mails};
+                }
             }
-        }
-        return res.status(200).json({message: "Slot data successfully created."});
+            else{
+                return undefined;
+            }
+        });
+        structuredSlots = JSON.stringify(structuredSlots);
+        fs.writeFileSync('userdata.js', structuredSlots);
+        res.download('userdata.js');
+        // return res.status(200).json({message: "Slot data successfully created."});
 });
 
 export default CreateSlotDataController;
