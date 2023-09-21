@@ -91,7 +91,7 @@ const CreateSlotDataController = catchAsync(
     
         let slots = await Slot.find({day: 1, toShow: false, isCarry: false})
         .populate("slotBookedBy");
-        const structuredSlots = slots.map((slot) => {
+        let structuredSlots = slots.map((slot) => {
             if (slot.slotBookedBy.length > 0) {
                 const lastTime = new Date(2023, 8, 22, 12, 0, 0);
                 if (slot.startTime.getTime() < lastTime.getTime()) {
