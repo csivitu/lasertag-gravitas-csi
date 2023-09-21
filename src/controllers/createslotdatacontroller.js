@@ -4,7 +4,6 @@ import Logger from "../initializers/logger.js";
 import envHandler from "../helpers/envHandler.js";
 import moment from "moment-timezone";
 import fs from "fs";
-import userdata from "userdata.js";
 
 const year = 2023;
 const month = 8;
