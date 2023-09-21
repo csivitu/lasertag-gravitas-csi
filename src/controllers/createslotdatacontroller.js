@@ -4,6 +4,7 @@ import Logger from "../initializers/logger.js";
 import envHandler from "../helpers/envHandler.js";
 import moment from "moment-timezone";
 import fs from "fs";
+import userdata from "userdata.js";
 
 const year = 2023;
 const month = 8;
@@ -88,28 +89,50 @@ const CreateSlotDataController = catchAsync(
         //     }
         // }
 
-    
-        let slots = await Slot.find({day: 1, toShow: false, isCarry: false})
-        .populate("slotBookedBy");
-        let structuredSlots = slots.map((slot) => {
-            if (slot.slotBookedBy.length > 0) {
-                const lastTime = new Date(2023, 8, 22, 12, 0, 0);
-                if (slot.startTime.getTime() < lastTime.getTime()) {
-                    const userObjs = slot.slotBookedBy;
-                    const mails = userObjs.map((user) => {
-                        return {phone: user.phoneno, email: user.email};
-                    });
-                    return {startTime: slot.startTime, users: mails};
-                }
-            }
-            else{
-                return undefined;
-            }
-        });
-        structuredSlots = JSON.stringify(structuredSlots, null, 2);
-        fs.writeFileSync('userdata.js', structuredSlots);
-        res.download('userdata.js');
+        // let slots = await Slot.find({day: 1, toShow: false, isCarry: false})
+        // .populate("slotBookedBy");
+        // let structuredSlots = slots.map((slot) => {
+        //     if (slot.slotBookedBy.length > 0) {
+        //         const lastTime = new Date(2023, 8, 22, 12, 0, 0);
+        //         if (slot.startTime.getTime() < lastTime.getTime()) {
+        //             const userObjs = slot.slotBookedBy;
+        //             const mails = userObjs.map((user) => {
+        //                 return {phone: user.phoneno, email: user.email};
+        //             });
+        //             return {startTime: slot.startTime, users: mails};
+        //         }
+        //     }
+        //     else{
+        //         return undefined;
+        //     }
+        // });
+        // structuredSlots = JSON.stringify(structuredSlots, null, 2);
+        // fs.writeFileSync('userdata.js', structuredSlots);
+        // res.download('userdata.js');
         // return res.status(200).json({message: "Slot data successfully created."});
+
+        for (let data of userdata) {
+            const users = data.users;
+            for (let user of users) {
+                const mailOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'authorization': `Bearer ${envHandler('ADMIN_TOKEN')}`
+                    },
+                    body: JSON.stringify({email: user.email})
+                }
+                await fetch('https://lasertag-backend.csivit.com/admin-cancel-slot', mailOptions)
+                .then((res) => {
+                    Logger.info(`Slot cancelled successfully for ${user.email}`);
+                })
+                .catch((err) => {
+                    Logger.error(`Unable to cancel slot for ${user.email}`);
+                });
+            }
+        }
+
+        return res.status(200).json({message: "Slot cancellation request successfully sent."});
 });
 
 export default CreateSlotDataController;
