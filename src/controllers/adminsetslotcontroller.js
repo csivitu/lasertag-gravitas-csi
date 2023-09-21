@@ -4,7 +4,7 @@ import Slot from "../models/slotModel.js";
 
 const AdminSetSlotController = catchAsync(
     async (req, res) => {
-        let {slotId, toShow} = req.body;
+        let {slotId} = req.body;
         let {adminMail} = req.admin;
 
         if (!slotId) {
@@ -19,7 +19,7 @@ const AdminSetSlotController = catchAsync(
             return res.status(400).json({error: "Invalid Slot ID for Slot state change."});
         }
 
-        slot.toShow = toShow;
+        slot.toShow = !(slot.toShow);
         await slot.save();
         Logger.info(`${adminMail} changed state of ${slot} to ${toShow}.`);
         return res.status(200).json({message: "Successfully changed state of selected slot."});
