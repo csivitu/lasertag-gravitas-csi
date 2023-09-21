@@ -1,6 +1,9 @@
 services:
   app:
-    image: lasertag-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lasertag-backend
     ports:
       - ${PORT}:${PORT}
     depends_on:
