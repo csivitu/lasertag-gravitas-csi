@@ -15,7 +15,7 @@ const SendMailController = catchAsync(
 
         const html = fs.readFileSync('/app/src/controllers/noqr.html', 'utf8');
 
-        const users = await User.find({scope: "SUPERADMIN"}, 'email').lean().exec(); // To be changed to all users
+        const users = await User.find({}, 'email').lean().exec(); // To be changed to all users
         const emailList = users.map((user) => user.email);
         console.log(emailList);
         console.log(emailList.length);
