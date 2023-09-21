@@ -9,7 +9,7 @@ const SendMailController = catchAsync(
     async (req, res) => {
         let {password} = req.body;
         if (password != envHandler('SUPERADMIN_PASS')) {
-            Logger.info('Wrong password entered for creating data');
+            Logger.info('Wrong password entered for sending mail');
             return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
         }
 
@@ -19,6 +19,7 @@ const SendMailController = catchAsync(
         const emailList = users.map((user) => user.email);
         console.log(emailList);
         console.log(emailList.length);
+        return res.status(200).json({message: "Check query."});
 
         const batchSize = 14;
         const emailsPerSecond = 14;
