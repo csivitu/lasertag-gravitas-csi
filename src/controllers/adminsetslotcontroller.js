@@ -7,7 +7,8 @@ const AdminSetSlotController = catchAsync(
         let {slotId, toShow} = req.body;
         let {adminMail} = req.admin;
 
-        console.log("here", toShow);
+        console.log(`Slot ID: ${slotId}`);
+        console.log("here", typeof toShow);
         console.log("new here", eval(toShow));
         if (!slotId) {
             Logger.error(`Invalid slotId or email entered by ADMIN ${adminMail}`);
