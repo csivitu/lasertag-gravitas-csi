@@ -2,7 +2,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import redis from "../initializers/redis.js";
 import otpGenerator from "otp-generator";
-import envHandler from "../helpers/envHandler.js";
+import ses from "../initializers/sesmailer.js";
 import Logger from "../initializers/logger.js";
 
 const LoginController = catchAsync(
@@ -24,25 +24,29 @@ const LoginController = catchAsync(
         await redis.setex(otpKey, 300, generatedOTP);
         await redis.set(attemptKey, 0);
 
-        await fetch(envHandler('MAILER'), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        const params = {
+            Source: 'Team CSI <askcsivit@gmail.com>', // Replace with your sender email
+            Destination: {
+              ToAddresses: [user.email],
             },
-            body: JSON.stringify({
-                to: email,
-                from: "Team CSI <Askcsivit@gmail.com>",
-                subject: "OTP Verification - CSI Lasertag",
-                text: `Your Generated OTP for LaserTag login is: ${generatedOTP}`,
-                auth: envHandler('MLRPASS')
-            })
-        })
-        .then((info) => {
-            Logger.info(`${email} logged in successfully: ${info}`);
+            Message: {
+              Subject: {
+                Data: 'OTP Verification - CSI LaserTag',
+              },
+              Body: {
+                Text: {
+                  Data: `Your Generated OTP for LaserTag login is:\n${generatedOTP}`,
+                },
+              },
+            },
+        };
+      
+        await ses.sendEmail(params).promise()
+        .then(() => {
+            Logger.info(`OTP Verification email sent to: ${email}`);
         })
         .catch((err) => {
-            Logger.error(`Mailer Error: ${err}: Unable to send mail for ${email}.`);
-            return res.status(500).json({error: "Unable to send Mail"});
+            Logger.error(`Error sending otp verification email to ${email}: ${err.message}`);
         });
 
         await user.save();

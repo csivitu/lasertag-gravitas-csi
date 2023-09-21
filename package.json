@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Yug-Oswal/lasertag-gravitas-csi#readme",
   "dependencies": {
+    "aws-sdk": "^2.1461.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
@@ -36,7 +37,7 @@
     "libphonenumber-js": "^1.10.44",
     "moment-timezone": "^0.5.43",
     "mongoose": "^7.4.3",
-    "nodemailer": "^6.9.4",
+    "nodemailer": "^6.9.5",
     "otp-generator": "^4.0.1",
     "winston": "^3.10.0",
     "xlsx": "^0.18.5"

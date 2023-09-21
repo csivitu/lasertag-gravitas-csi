@@ -3,7 +3,7 @@ import envHandler from "../helpers/envHandler.js";
 import Slot from "../models/slotModel.js";
 import User from "../models/userModel.js";
 import Logger from "../initializers/logger.js";
-import { generateQR } from "../helpers/generateQR.js";
+import ses from "../initializers/sesmailer.js";
 import moment from "moment-timezone";
 import fs from "fs";
 
@@ -25,7 +25,6 @@ const BookSlotController = catchAsync(
         }
 
         const linkText = `${envHandler('CLIENT_URL')}admin-scan/${user.email}`;
-        const qrElement = await generateQR(linkText);
         const iststartDateTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
         const iststartDate = iststartDateTime.format('dddd, MMMM D, YYYY');
         const iststartTime = iststartDateTime.format('hh:mm:ss A');
@@ -35,25 +34,29 @@ const BookSlotController = catchAsync(
         customQRMail = customQRMail.replace('%backend_date%', iststartDate);
         customQRMail = customQRMail.replace('%backend_time%', iststartTime);
 
-        await fetch(envHandler('MAILER'), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        const params = {
+            Source: 'Team CSI <askcsivit@gmail.com>', // Replace with your sender email
+            Destination: {
+              ToAddresses: [user.email],
             },
-            body: JSON.stringify({
-                to: user.email,
-                from: "Team CSI <Askcsivit@gmail.com>",
-                subject: "Slot Booking Confirmation",
-                html: customQRMail,
-                auth: envHandler('MLRPASS')
-            })
-        })
-        .then((info) => {
-            Logger.info(`${user.email} booked slot successfully: ${info}`);
+            Message: {
+              Subject: {
+                Data: 'Slot Booking Confirmation - CSI LaserTag',
+              },
+              Body: {
+                Html: {
+                  Data: customQRMail,
+                },
+              },
+            },
+        };
+      
+        await ses.sendEmail(params).promise()
+        .then(() => {
+            Logger.info(`Slot booking confirmation email sent to: ${user.email}`);
         })
         .catch((err) => {
-            Logger.error(`Mailer Error: ${err}: Unable to send mail for ${user.email} for slot booking.`);
-            return res.status(500).json({error: "Unable to send Mail"});
+            Logger.error(`Error sending slot booked email to ${user.email}: ${err.message}`);
         });
 
         slot.slotBookedBy.push(user);
