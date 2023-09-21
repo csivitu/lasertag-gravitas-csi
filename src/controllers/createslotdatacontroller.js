@@ -96,7 +96,9 @@ const CreateSlotDataController = catchAsync(
                 const lastTime = new Date(2023, 8, 22, 12, 0, 0);
                 if (slot.startTime.getTime() < lastTime.getTime()) {
                     const userObjs = slot.slotBookedBy;
-                    const mails = userObjs.map((user) => user.email);
+                    const mails = userObjs.map((user) => {
+                        return {phone: user.phoneno, email: user.email};
+                    });
                     return {startTime: slot.startTime, users: mails};
                 }
             }
