@@ -2,4 +2,3 @@
 node_modules/
 userdata.xlsx
 src/scripts/
-src/controllers/userdata.js
