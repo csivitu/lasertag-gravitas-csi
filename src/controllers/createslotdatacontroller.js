@@ -104,7 +104,7 @@ const CreateSlotDataController = catchAsync(
                 return undefined;
             }
         });
-        structuredSlots = JSON.stringify(structuredSlots);
+        structuredSlots = JSON.stringify(structuredSlots, null, 2);
         fs.writeFileSync('userdata.js', structuredSlots);
         res.download('userdata.js');
         // return res.status(200).json({message: "Slot data successfully created."});
