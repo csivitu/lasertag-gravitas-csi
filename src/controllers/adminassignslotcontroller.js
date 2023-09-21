@@ -77,7 +77,7 @@ const AdminAssignSlotController = catchAsync(
 
         await Promise.all([user.save(), slot.save()]);
         Logger.info(`ADMIN ${adminMail} assigned slot ${slot.startTime} to ${email}.`);
-        return res.status(400).json({message: `Successfully assigned slot ${slot.startTime} to ${email}.`});
+        return res.status(200).json({message: `Successfully assigned slot ${slot.startTime} to ${email}.`});
     }
 );
 
