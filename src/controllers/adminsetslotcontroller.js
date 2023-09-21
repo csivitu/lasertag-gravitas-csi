@@ -19,12 +19,7 @@ const AdminSetSlotController = catchAsync(
             return res.status(400).json({error: "Invalid Slot ID for Slot state change."});
         }
 
-        if (toShow === "true") {
-            slot.toShow = true;
-        } else {
-            slot.toShow = false;
-        }
-        
+        slot.toShow = toShow;
         await slot.save();
         Logger.info(`${adminMail} changed state of ${slot} to ${toShow}.`);
         return res.status(200).json({message: "Successfully changed state of selected slot."});
