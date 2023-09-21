@@ -111,28 +111,28 @@ const CreateSlotDataController = catchAsync(
         // res.download('userdata.js');
         // return res.status(200).json({message: "Slot data successfully created."});
 
-        for (let data of userdata) {
-            const users = data.users;
-            for (let user of users) {
-                const mailOptions = {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'authorization': `Bearer ${envHandler('ADMIN_TOKEN')}`
-                    },
-                    body: JSON.stringify({email: user.email})
-                }
-                await fetch('https://lasertag-backend.csivit.com/admin-cancel-slot', mailOptions)
-                .then((res) => {
-                    Logger.info(`Slot cancelled successfully for ${user.email}`);
-                })
-                .catch((err) => {
-                    Logger.error(`Unable to cancel slot for ${user.email}`);
-                });
-            }
-        }
+        // for (let data of userdata) {
+        //     const users = data.users;
+        //     for (let user of users) {
+        //         const mailOptions = {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'authorization': `Bearer ${envHandler('ADMIN_TOKEN')}`
+        //             },
+        //             body: JSON.stringify({email: user.email})
+        //         }
+        //         await fetch('https://lasertag-backend.csivit.com/admin-cancel-slot', mailOptions)
+        //         .then((res) => {
+        //             Logger.info(`Slot cancelled successfully for ${user.email}`);
+        //         })
+        //         .catch((err) => {
+        //             Logger.error(`Unable to cancel slot for ${user.email}`);
+        //         });
+        //     }
+        // }
 
-        return res.status(200).json({message: "Slot cancellation request successfully sent."});
+    return res.status(200).json({message: "Slot cancellation request successfully sent."});
 });
 
 export default CreateSlotDataController;

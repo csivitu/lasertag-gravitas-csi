@@ -1,4 +1,4 @@
-const userdata = [
+export const userdata = [
     {
       "startTime": "2023-09-22T03:45:00.000Z",
       "users": [
@@ -247,6 +247,4 @@ const userdata = [
       ]
     }
 ]
-
-export default userdata;
 
