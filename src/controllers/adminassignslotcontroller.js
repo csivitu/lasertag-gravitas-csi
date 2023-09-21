@@ -10,6 +10,12 @@ const AdminAssignSlotController = catchAsync(
     async (req, res) => {
         let {adminMail} = req.admin;
         let {email, slotId} = req.body;
+
+        if (!slotId || !email) {
+            Logger.error(`Invalid slotId or email entered by ADMIN ${adminMail}`);
+            return res.status(400).json({error: "Invalid slotId or email."});
+        }
+
         email = email.trim();
         email = email.toLowerCase();
 

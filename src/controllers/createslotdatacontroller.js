@@ -6,7 +6,7 @@ import moment from "moment-timezone";
 
 const year = 2023;
 const month = 8;
-const monthDays = [22, 23, 24];
+const monthDays = [22];
 const hours = [8, 9, 10, 11, 13, 14, 15, 16, 17, 18];
 const mins = [0, 10, 15, 25, 30, 40, 45, 55];
 const curTimezone = 'Asia/Kolkata';
@@ -58,7 +58,7 @@ const CreateSlotDataController = catchAsync(
         
         
         for (let dy of monthDays) {
-            const hr = 7;
+            const hr = 12;
             for (let mn = 0; mn < mins.length; mn += 2) {
                 let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
                 let endTime = new moment.tz([year, month, dy, hr, mins[mn + 1], 0], curTimezone).tz(targetTimezone).toDate();

@@ -8,6 +8,11 @@ const AdminCancelSlotController = catchAsync(
         let {adminMail} = req.admin;
         let {email} = req.body;
 
+        if (!email) {
+            Logger.error(`Invalid email entered by ADMIN ${adminMail}`);
+            return res.status(400).json({error: "Invalid email."});
+        }
+
         const user = await User.findOne({email: email});
 
         if (!user) {
