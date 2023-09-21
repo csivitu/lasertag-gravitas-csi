@@ -10,7 +10,7 @@ const SendMailController = catchAsync(
         let {password} = req.body;
         if (password != envHandler('SUPERADMIN_PASS')) {
             Logger.info('Wrong password entered for sending mail');
-            return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
+            return res.status(400).json({error: "Bad auth: You are not allowed to access send-mail."});
         }
 
         const html = fs.readFileSync('/app/src/controllers/noqr.html', 'utf8');
