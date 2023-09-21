@@ -2,7 +2,7 @@ import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import Slot from "../models/slotModel.js";
 import Logger from "../initializers/logger.js";
-import envHandler from "../helpers/envHandler.js";
+import ses from "../initializers/sesmailer.js";
 import moment from "moment-timezone";
 import fs from "fs";
 
@@ -54,25 +54,29 @@ const ChangeSlotController = catchAsync(
         customQRMail = customQRMail.replace('%backend_date%', istnewDate);
         customQRMail = customQRMail.replace('%backend_time%', istnewTime);
 
-        await fetch(envHandler('MAILER'), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+        const params = {
+            Source: 'Team CSI <askcsivit@gmail.com>', // Replace with your sender email
+            Destination: {
+              ToAddresses: [user.email],
             },
-            body: JSON.stringify({
-                to: user.email,
-                from: "Team CSI <Askcsivit@gmail.com>",
-                subject: "Slot Change Confirmation",
-                html: customQRMail,
-                auth: envHandler('MLRPASS')
-            })
-        })
-        .then((info) => {
-            Logger.info(`${user.email} booked slot successfully: ${info.message}`);
+            Message: {
+              Subject: {
+                Data: 'Slot Change Confirmation - CSI LaserTag',
+              },
+              Body: {
+                Html: {
+                  Data: customQRMail,
+                },
+              },
+            },
+        };
+      
+        await ses.sendEmail(params).promise()
+        .then(() => {
+            Logger.info(`Slot change confirmation email sent to: ${user.email}`);
         })
         .catch((err) => {
-            Logger.error(`Mailer Error: ${err}: Unable to send mail for ${user.email} for slot booking.`);
-            return res.status(500).json({error: "Unable to send Mail"});
+            Logger.error(`Error sending slot changed email to ${user.email}: ${err.message}`);
         });
 
         await Promise.all([oldSlot.save(), slot.save(), user.save()]);
