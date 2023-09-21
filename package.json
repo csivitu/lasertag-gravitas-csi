@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Yug-Oswal/lasertag-gravitas-csi#readme",
   "dependencies": {
+    "aws-sdk": "^2.1461.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.3.1",

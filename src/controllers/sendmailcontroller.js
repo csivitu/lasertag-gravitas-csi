@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import catchAsync from "../helpers/catchAsync.js";
 import Logger from "../initializers/logger.js";
 import envHandler from "../helpers/envHandler.js";
-import nodemailer from "nodemailer";
+import ses from "../initializers/sesmailer.js";
 import fs from "fs";
 
 const SendMailController = catchAsync(
@@ -12,43 +12,66 @@ const SendMailController = catchAsync(
             Logger.info('Wrong password entered for creating data');
             return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
         }
-        
-        const users = await User.find({scope: "SUPERADMIN"});
 
         const html = fs.readFileSync('/app/src/controllers/noqr.html', 'utf8');
 
-        for (let user of users) {
+        const users = await User.find({scope: "SUPERADMIN"}, 'email').lean().exec(); // To be changed to all users
+        const emailList = users.map((user) => user.email);
+        console.log(emailList);
+        console.log(emailList.length);
 
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: envHandler('MLRID'),
-                    pass: envHandler('MLRPASS')
-                }
+        const batchSize = 14;
+        const emailsPerSecond = 14;
+        const delayBetweenBatches = 1000;
+
+        async function sendEmailBatch(emailBatch) {
+            const promises = emailBatch.map((email) => {
+              const params = {
+                Source: 'Team CSI <askcsivit@gmail.com>', // Replace with your sender email
+                Destination: {
+                  ToAddresses: [email],
+                },
+                Message: {
+                  Subject: {
+                    Data: 'Slot Booking Notice for LaserTag - CSI',
+                  },
+                  Body: {
+                    Html: {
+                      Data: html,
+                    },
+                  },
+                },
+              };
+          
+              return ses.sendEmail(params).promise()
+                .then(() => {
+                  console.log(`Email sent to: ${email}`);
+                })
+                .catch((err) => {
+                  console.error(`Error sending email to ${email}: ${err.message}`);
+                });
             });
 
-            // async..await is not allowed in global scope, must use a wrapper
-            async function main() {
-            // send mail with defined transport object
-            const info = await transporter.sendMail({
-                from: '"Team CSI" <askcsivit@gmail.com>', // sender address
-                to: user.email, // list of receivers
-                subject: "Slot Booking Notice for LaserTag", // Subject line
-                html: html, // html body
-            });
+            await Promise.all(promises);
+        };
 
-            console.log("Message sent: %s", info.messageId);
-            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-            //
-            // NOTE: You can go to https://forwardemail.net/my-account/emails to see your email delivery status and preview
-            //       Or you can use the "preview-email" npm package to preview emails locally in browsers and iOS Simulator
-            //       <https://github.com/forwardemail/preview-email>
-            //
+        async function sendBulkEmails() {
+            while (emailList.length > 0) {
+              const emailBatch = emailList.splice(0, batchSize);
+              await sendEmailBatch(emailBatch);
+          
+              if (emailList.length > 0) {
+                // Introduce a delay between batches to stay within the SES rate limit
+                await new Promise((resolve) => setTimeout(resolve, delayBetweenBatches));
+              }
             }
-
-            main().catch(console.error);
+          
+            console.log('All emails sent successfully');
         }
+
+        sendBulkEmails()
+        .catch((err) => console.error(`Error sending bulk emails: ${err}`));
+
         return res.status(200).json({message: "Sent mail successfully."});
 });
 
