@@ -20,8 +20,6 @@ import adminexportuserdb from "./routes/adminexportuserdb.js";
 import sendmail from "./routes/sendmail.js";
 import cors from "cors";
 import adminscan from "./routes/adminscan.js";
-import apilimiter from "./middleware/apilimiter.js";
-import changeslotlimiter from "./middleware/changeslotlimiter.js";
 
 const app = express();
 const port = envHandler('PORT');
@@ -31,8 +29,6 @@ app.use(express.json());
 app.use(expressMongoSanitize());
 
 connectToDB();
-
-app.use("/change-slot", changeslotlimiter);
 
 app.use("/login", login);
 app.use("/verify-user", verifyuser);

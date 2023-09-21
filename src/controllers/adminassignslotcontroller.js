@@ -1,7 +1,9 @@
 import catchAsync from "../helpers/catchAsync.js";
 import User from "../models/userModel.js";
 import Slot from "../models/slotModel.js";
-import envHandler from "../helpers/envHandler.js";
+import ses from "../initializers/sesmailer.js";
+import moment from "moment-timezone";
+import fs from "fs";
 import Logger from "../initializers/logger.js";
 
 const AdminAssignSlotController = catchAsync(
@@ -37,7 +39,42 @@ const AdminAssignSlotController = catchAsync(
         user.slotBooked = slot;
         slot.slotBookedBy.push(user);
         user.QR.isScanned = false;
+
         // optional: send email with new qr code
+        const istnewDateTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
+        const istnewDate = istnewDateTime.format('dddd, MMMM D, YYYY');
+        const istnewTime = istnewDateTime.format('hh:mm:ss A');
+
+        const qrmail = fs.readFileSync('/app/src/controllers/finalqr.html', 'utf8');
+        let customQRMail = qrmail.replace('%backend_data%', user.QR.data);
+        customQRMail = customQRMail.replace('%backend_date%', istnewDate);
+        customQRMail = customQRMail.replace('%backend_time%', istnewTime);
+
+        const params = {
+            Source: 'Team CSI <askcsivit@gmail.com>', // Replace with your sender email
+            Destination: {
+              ToAddresses: [user.email],
+            },
+            Message: {
+              Subject: {
+                Data: 'Slot Change Confirmation - CSI LaserTag',
+              },
+              Body: {
+                Html: {
+                  Data: customQRMail,
+                },
+              },
+            },
+        };
+      
+        await ses.sendEmail(params).promise()
+        .then(() => {
+            Logger.info(`Slot change confirmation email sent to: ${user.email}`);
+        })
+        .catch((err) => {
+            Logger.error(`Error sending slot changed email to ${user.email}: ${err.message}`);
+        });
+
         await Promise.all([user.save(), slot.save()]);
         Logger.info(`ADMIN ${adminMail} assigned slot ${slot.startTime} to ${email}.`);
         return res.status(400).json({message: `Successfully assigned slot ${slot.startTime} to ${email}.`});
