@@ -33,10 +33,10 @@ const ChangeSlotController = catchAsync(
             Logger.info(`${user.email} attempted change when booked slot time has already passed.`);
             return res.status(400).json({error: "Booked slot time has already passed."});
         }
-        if ((oldSlot.startTime.getTime() - new Date().getTime()) < (9 * 60 * 60 * 1000)) {
-            Logger.info(`${user.email} not allowed change slot since within 9 hours of booked slot time.`);
+        if ((oldSlot.startTime.getTime() - new Date().getTime()) < (3 * 60 * 60 * 1000)) {
+            Logger.info(`${user.email} not allowed change slot since within 3 hours of booked slot time.`);
             return res.status(400).json({error: 
-                "Slot change is not allowed within 9 hours of the already booked slot."});
+                "Slot change is not allowed within 3 hours of the already booked slot."});
         }
 
         oldSlot.slotBookedBy = oldSlot.slotBookedBy.filter(
