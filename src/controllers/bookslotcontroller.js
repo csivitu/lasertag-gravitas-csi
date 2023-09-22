@@ -63,6 +63,7 @@ const BookSlotController = catchAsync(
         user.slotBooked = slot;
         user.QR.data = linkText;
         await Promise.all([slot.save(), user.save()]);
+        Logger.info(`${user.email} successfully booked slot for ${slot.startTime}`);
 
         return res.status(200).json({message: "Slot successfully booked."});
     }
