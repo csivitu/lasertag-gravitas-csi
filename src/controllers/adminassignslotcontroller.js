@@ -4,6 +4,7 @@ import Slot from "../models/slotModel.js";
 import ses from "../initializers/sesmailer.js";
 import moment from "moment-timezone";
 import fs from "fs";
+import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
 
 const AdminAssignSlotController = catchAsync(
@@ -45,6 +46,11 @@ const AdminAssignSlotController = catchAsync(
         user.slotBooked = slot;
         slot.slotBookedBy.push(user);
         user.QR.isScanned = false;
+
+        if (!user.QR.data) {
+          const linkText = `${envHandler('CLIENT_URL')}admin-scan/${user.email}`;
+          user.QR.data = linkText;
+        }
 
         // optional: send email with new qr code
         const istnewDateTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
