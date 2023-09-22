@@ -8,7 +8,7 @@ import fs from "fs";
 const year = 2023;
 const month = 8;
 const monthDays = [24];
-const hours = [9, 10, 11, 13, 14, 15, 16, 17];
+const hours = [10, 11, 13, 14, 15, 16, 17, 18];
 const mins = [0, 10, 20, 30, 40, 50];
 const curTimezone = 'Asia/Kolkata';
 const targetTimezone = 'UTC';
