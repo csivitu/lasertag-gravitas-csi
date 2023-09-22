@@ -33,6 +33,7 @@ const AdminCancelSlotController = catchAsync(
 
         user.slotBooked = null;
         user.QR.data = null;
+        user.QR.isScanned = false;
 
         slot.slotBookedBy = slot.slotBookedBy.filter(
             (id) => id.toString() != (user._id).toString()
