@@ -7,7 +7,7 @@ import fs from "fs";
 
 const year = 2023;
 const month = 8;
-const monthDays = [23];
+const monthDays = [24];
 const hours = [9, 10, 11, 13, 14, 15, 16, 17];
 const mins = [0, 10, 20, 30, 40, 50];
 const curTimezone = 'Asia/Kolkata';
@@ -131,16 +131,20 @@ const CreateSlotDataController = catchAsync(
         //     }
         // }
 
-        await Slot.deleteMany({day: 2});
-        const day = 2;
+        await Slot.deleteMany({day: 3});
+        const day = 3;
         for (let dy of monthDays) {
             for (let hr of hours) {
                 for (let mn = 0; mn < mins.length; mn += 1) {
                     let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
+                    let finalmins;
                     if (mins[mn] == 50) {
                         hr += 1;
+                        finalmins = 0;
+                    } else {
+                        finalmins = mins[mn + 1];
                     }
-                    let endTime = new moment.tz([year, month, dy, hr, mins[mn + 1], 0], curTimezone).tz(targetTimezone).toDate();
+                    let endTime = new moment.tz([year, month, dy, hr, finalmins, 0], curTimezone).tz(targetTimezone).toDate();
 
                     let newSlot = {
                         startTime,
@@ -160,7 +164,7 @@ const CreateSlotDataController = catchAsync(
             }
         }
 
-        return res.status(200).json({message: "Slot cancellation request successfully sent."});
+        return res.status(200).json({message: "New slots successfully created."});
 });
 
 export default CreateSlotDataController;
