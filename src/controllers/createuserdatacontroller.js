@@ -5,7 +5,7 @@ import Slot from "../models/slotModel.js";
 import XLSX from "xlsx";
 import envHandler from "../helpers/envHandler.js";
 import fs from "fs";
-import { userEmailsDay2 } from "./useremailsday2.js";
+// import { userEmailsDay2 } from "./useremailsday2.js";
 
 const CreateUserDataController = catchAsync(
     async (req, res) => {
