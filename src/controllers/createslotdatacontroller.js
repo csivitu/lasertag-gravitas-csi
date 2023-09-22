@@ -8,7 +8,7 @@ import fs from "fs";
 const year = 2023;
 const month = 8;
 const monthDays = [23];
-const hours = [9, 10, 11, 13, 14, 15, 16, 17, 18];
+const hours = [9, 10, 11, 13, 14, 15, 16, 17];
 const mins = [0, 10, 20, 30, 40, 50];
 const curTimezone = 'Asia/Kolkata';
 const targetTimezone = 'UTC';
@@ -137,10 +137,10 @@ const CreateSlotDataController = catchAsync(
             for (let hr of hours) {
                 for (let mn = 0; mn < mins.length; mn += 1) {
                     let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
-                    let endTime = new moment.tz([year, month, dy, hr, mins[mn + 1], 0], curTimezone).tz(targetTimezone).toDate();
-                    if (hr == 9 && (mins[mn] < 30)) {
-                        continue;
+                    if (mins[mn] == 50) {
+                        hr += 1;
                     }
+                    let endTime = new moment.tz([year, month, dy, hr, mins[mn + 1], 0], curTimezone).tz(targetTimezone).toDate();
 
                     let newSlot = {
                         startTime,
@@ -156,10 +156,6 @@ const CreateSlotDataController = catchAsync(
                     .then((slot) => {
                         Logger.info(`Successfully created slot: ${slot}`);
                     });
-
-                    if (hr == 18 && (mins[mn] >= 30)) {
-                        break;
-                    }
                 }
             }
         }
