@@ -4,6 +4,7 @@ import Slot from "../models/slotModel.js";
 
 const verifyslot = catchAsync(
     async (req, res, next) => {
+        return res.status(200).json({message: "Slot booking has now been officialy closed. Thank you for your participation!"});
         let {slotId} = req.body;
         const slot = await Slot.findById(slotId).populate("slotBookedBy");
 
