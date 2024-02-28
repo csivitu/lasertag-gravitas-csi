@@ -5,11 +5,11 @@ import envHandler from "../helpers/envHandler.js";
 import moment from "moment-timezone";
 import fs from "fs";
 
-const year = 2023;
-const month = 8;
-const monthDays = [24];
-const hours = [10, 11, 13, 14, 15, 16, 17, 18];
-const mins = [0, 10, 20, 30, 40, 50];
+const year = 2024;
+const month = 1;
+const monthDays = [29];
+const hours = [11, 12, 14, 15];
+const mins = [0, 15, 30, 45];
 const curTimezone = 'Asia/Kolkata';
 const targetTimezone = 'UTC';
 
@@ -20,42 +20,49 @@ const CreateSlotDataController = catchAsync(
             Logger.info('Wrong password entered for creating data');
             return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
         }
-        // for (let dy of monthDays) {
-        // for (let hr of hours) {
-        //     for (let mn = 0; mn < mins.length; mn += 2) {
-        //         let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
-        //         let endTime = new moment.tz([year, month, dy, hr, mins[mn + 1], 0], curTimezone).tz(targetTimezone).toDate();
-        //         let day = 1;
-        //         let isCarry = false;
-        //         if (hr == 16 && (mins[mn] < 30)) {
-        //             continue;
-        //         }
-        //         if (dy == 22) {
-        //             day = 1;
-        //         }
-        //         else if (dy == 23) {
-        //             day = 2;
-        //         }
-        //         else {
-        //             day = 3;
-        //         }
-        //         if (hr == 8 && (mins[mn] <= 30)) {
-        //             isCarry = true;
-        //         }
+        for (let dy of monthDays) {
+        for (let hr of hours) {
+            for (let mn = 0; mn < mins.length; mn += 1) {
+                let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
+                if (mins[mn] == 45) {
+                    hr += 1;
+                    finalmins = 0;
+                } else {
+                    finalmins = mins[mn + 1];
+                }
+                let endTime = new moment.tz([year, month, dy, hr, finalmins, 0], curTimezone).tz(targetTimezone).toDate();
+                let day = 1;
+                let isCarry = false;
+                // if (hr == 16 && (mins[mn] < 30)) {
+                //     continue;
+                // }
+                // if (dy == 22) {
+                //     day = 1;
+                // }
+                // else if (dy == 23) {
+                //     day = 2;
+                // }
+                // else {
+                //     day = 3;
+                // }
+                // if (hr == 8 && (mins[mn] <= 30)) {
+                //     isCarry = true;
+                // }
                 
-        //         let newSlot = {
-        //             startTime: startTime,
-        //             endTime: endTime,
-        //             day: day,
-        //             isCarry: isCarry
-        //         };
+                let newSlot = {
+                    startTime: startTime,
+                    endTime: endTime,
+                    day: day,
+                    isCarry: isCarry
+                };
 
-        //         await Slot.create([newSlot])
-        //         .catch((err) => {
-        //             console.log(`Slot unable to be created: ${err}`);
-        //         });
-        //     }
-        // }
+                await Slot.create([newSlot])
+                .catch((err) => {
+                    console.log(`Slot unable to be created: ${err}`);
+                });
+            }
+        }
+    }
         
         
         // for (let dy of monthDays) {
