@@ -17,35 +17,47 @@ const CreateUserDataController = catchAsync(
             return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
         }
 
-        const filepath = "/app/userdata.xlsx";
-        const workbook = XLSX.readFile(filepath);
+        // const filepath = "/app/userdata.xlsx";
+        // const workbook = XLSX.readFile(filepath);
 
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        // const worksheet = workbook.Sheets[workbook.SheetNames[0]];
 
-        const jsonUsers = XLSX.utils.sheet_to_json(worksheet);
+        // const jsonUsers = XLSX.utils.sheet_to_json(worksheet);
         
-        for (let user of jsonUsers) {
-            let userName, userRegNo, userEmail, userPhone;
-            userName = (user['Student Name']).trim();
-            if (user['Register Number']) { 
-                userRegNo = (user['Register Number']).trim();
-            } else {userRegNo = null;}
-            userEmail = (user['EmailId']).trim().toLowerCase();
-            userPhone = ((user['MobileNo.']).toString()).trim();
+        // for (let user of jsonUsers) {
+        //     let userName, userRegNo, userEmail, userPhone;
+        //     userName = (user['Student Name']).trim();
+        //     if (user['Register Number']) { 
+        //         userRegNo = (user['Register Number']).trim();
+        //     } else {userRegNo = null;}
+        //     userEmail = (user['EmailId']).trim().toLowerCase();
+        //     userPhone = ((user['MobileNo.']).toString()).trim();
             
-            let newUser = {
-                name: userName,
-                regno: userRegNo,
-                email: userEmail,
-                phoneno: userPhone
-            };
+        //     let newUser = {
+        //         name: userName,
+        //         regno: userRegNo,
+        //         email: userEmail,
+        //         phoneno: userPhone
+        //     };
 
-            await User.create([newUser])
-            .catch((err) => {
-                Logger.error(`Error creating user: ${err}`);
-                return res.status(500).json({error: `Error occurred when creating new user: ${err}`});
-            })
-        }
+        //     await User.create([newUser])
+        //     .catch((err) => {
+        //         Logger.error(`Error creating user: ${err}`);
+        //         return res.status(500).json({error: `Error occurred when creating new user: ${err}`});
+        //     })
+        // }
+
+        await User.create([
+            // {
+            //     name: "Saarim",
+            //     email: "saarimmw@gmail.com"
+            // },
+            // {
+            //     name: "Vibhor",
+            //     email: "vibhor.agrawal2022@vitstudent.ac.in"
+            // }
+            
+        ]);
 
         // await User.create([
         //     {
