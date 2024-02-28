@@ -4,6 +4,7 @@ import Logger from "../initializers/logger.js";
 import envHandler from "../helpers/envHandler.js";
 import ses from "../initializers/sesmailer.js";
 import fs from "fs";
+import { escape } from "querystring";
 
 const SendMailController = catchAsync(
     async (req, res) => {
@@ -13,7 +14,7 @@ const SendMailController = catchAsync(
             return res.status(400).json({error: "Bad auth: You are not allowed to access send-mail."});
         }
 
-        const html = fs.readFileSync('/app/src/controllers/noqr.html', 'utf8');
+        const html = fs.readFileSync('/app/src/controllers/notice.html', 'utf8');
 
         const users = await User.find({slotBooked: null, "QR.isScanned": false}, {email: 1, _id: 0});
         const emailList = users.map((user) => user.email);
