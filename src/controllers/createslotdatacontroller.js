@@ -24,6 +24,7 @@ const CreateSlotDataController = catchAsync(
         for (let hr of hours) {
             for (let mn = 0; mn < mins.length; mn += 1) {
                 let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
+                let finalmins;
                 if (mins[mn] == 45) {
                     hr += 1;
                     finalmins = 0;
