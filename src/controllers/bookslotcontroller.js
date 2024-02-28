@@ -9,7 +9,7 @@ import fs from "fs";
 
 const BookSlotController = catchAsync(
     async (req, res) => {
-        return res.status(200).json({message: "Slot booking has now been officialy closed. Thank you for your participation!"});
+        // return res.status(200).json({message: "Slot booking has now been officialy closed. Thank you for your participation!"});
         let {slotId} = req.body;
         let {userID} = req.userID;
 

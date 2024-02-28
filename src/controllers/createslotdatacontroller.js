@@ -8,8 +8,8 @@ import fs from "fs";
 const year = 2024;
 const month = 1;
 const monthDays = [29];
-const hours = [11, 12, 14, 15];
-const mins = [0, 15, 30, 45];
+const hours = [12, 13, 14, 15];
+const mins = [0, 20, 40];
 const curTimezone = 'Asia/Kolkata';
 const targetTimezone = 'UTC';
 
@@ -25,7 +25,7 @@ const CreateSlotDataController = catchAsync(
             for (let mn = 0; mn < mins.length; mn += 1) {
                 let startTime = new moment.tz([year, month, dy, hr, mins[mn], 0], curTimezone).tz(targetTimezone).toDate();
                 let finalmins;
-                if (mins[mn] == 45) {
+                if (mins[mn] == 40) {
                     hr += 1;
                     finalmins = 0;
                 } else {
