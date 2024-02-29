@@ -6,9 +6,9 @@ import moment from "moment-timezone";
 import fs from "fs";
 
 const year = 2024;
-const month = 1;
-const monthDays = [29];
-const hours = [12, 13, 14, 15];
+const month = 2; // Months are indexed (Jan - 0, Feb - 1...)
+const monthDays = [1, 2];
+const hours = [10, 11, 12, 14, 15];
 const mins = [0, 20, 40];
 const curTimezone = 'Asia/Kolkata';
 const targetTimezone = 'UTC';
