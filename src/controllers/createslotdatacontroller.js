@@ -37,12 +37,12 @@ const CreateSlotDataController = catchAsync(
                 // if (hr == 16 && (mins[mn] < 30)) {
                 //     continue;
                 // }
-                // if (dy == 22) {
-                //     day = 1;
-                // }
-                // else if (dy == 23) {
-                //     day = 2;
-                // }
+                if (dy == 1) {
+                    day = 2;
+                }
+                else if (dy == 2) {
+                    day = 3;
+                }
                 // else {
                 //     day = 3;
                 // }
