@@ -14,7 +14,7 @@ const SendMailController = catchAsync(
             return res.status(400).json({error: "Bad auth: You are not allowed to access send-mail."});
         }
 
-        const html = fs.readFileSync('/app/src/controllers/notice.html', 'utf8');
+        const html = fs.readFileSync('/app/src/controllers/slotopennotice.html', 'utf8');
 
         const users = await User.find({slotBooked: null, "QR.isScanned": false}, {email: 1, _id: 0});
         const emailList = users.map((user) => user.email);
@@ -33,7 +33,7 @@ const SendMailController = catchAsync(
                 },
                 Message: {
                   Subject: {
-                    Data: 'Slot Booking Notice for LaserTag - CSI',
+                    Data: 'Slot Opening Notice for LaserTag - CSI',
                   },
                   Body: {
                     Html: {
