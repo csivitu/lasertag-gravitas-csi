@@ -16,9 +16,8 @@ const SendMailController = catchAsync(
 
         const html = fs.readFileSync('/app/src/controllers/slotopennotice.html', 'utf8');
 
-        // const users = await User.find({slotBooked: null, "QR.isScanned": false}, {email: 1, _id: 0});
-        // const emailList = users.map((user) => user.email);
-        const emailList =  ['kartik.goyal2020@vitstudent.ac.in',  'swarit.gupta2020@vitstudent.ac.in',   'vasanthraj.christian2021@vitstudent.ac.in',   'hayavadhan.s2021@vitstudent.ac.in',  'sandeep.shankar2021@vitstudent.ac.in', 'gopika.catul2021@vitstudent.ac.in',   'jayesh.yaramati2021@vitstudent.ac.in',  'abhayvarma.pk2021@vitstudent.ac.in',  'shreemaykumar.bhuyan2021@vitstudent.ac.in',  'srisatya.narendra2021@vitstudent.ac.in', 'ritu.hiremath2022@vitstudent.ac.in',  'taniya.rajesh2022@vitstudent.ac.in', 'vaibhav.kanodia2022@vitstudent.ac.in', 'aruna.balaji2022@vitstudent.ac.in',  'tejeshwar.d2022@vitstudent.ac.in', 'siyasha.singh2022@vitstudent.ac.in', 'kanish.v2022@vitstudent.ac.in',  'rupganesh.p2022@vitstudent.ac.in', 'ekaspreet.singh2023@vitstudent.ac.in', 'sreenidhi.tatavarthi2023@vitstudent.ac.in', 'yarlagadda.preetham2023@vitstudent.ac.in'];
+        const users = await User.find({slotBooked: null, "QR.isScanned": false}, {email: 1, _id: 0});
+        const emailList = users.map((user) => user.email);
         console.log(emailList.length);
 
         const batchSize = 14;
@@ -34,7 +33,7 @@ const SendMailController = catchAsync(
                 },
                 Message: {
                   Subject: {
-                    Data: 'Slot Opening Notice for LaserTag - CSI',
+                    Data: 'Slot Opening & Registration for LaserTag - CSI',
                   },
                   Body: {
                     Html: {
