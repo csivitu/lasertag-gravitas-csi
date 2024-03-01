@@ -33,7 +33,7 @@ const SendMailController = catchAsync(
                 },
                 Message: {
                   Subject: {
-                    Data: 'Slot Opening & Registration for LaserTag - CSI',
+                    Data: 'Slot Opening Notice for LaserTag - CSI',
                   },
                   Body: {
                     Html: {
