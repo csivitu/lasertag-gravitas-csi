@@ -11,14 +11,6 @@ services:
       - log-data:/app/logs
     env_file:
       - .env
-
-  mongodb:
-    image: mongo
-    ports:
-      - 27017:27017
-    restart: always
-    volumes:
-      - mongo-data:/data/db
     
   redis:
     image: redis
@@ -27,9 +19,6 @@ services:
     restart: always
 
 volumes:
-  mongo-data:
-    name: lasertag-data
-    driver: local
   log-data:
     name: log-data
     driver: local
