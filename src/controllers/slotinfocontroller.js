@@ -6,17 +6,16 @@ import moment from "moment-timezone";
 const SlotInfoController = catchAsync(
     async (req, res) => {
         try {
-            // const slots = await Slot.find({ toShow: false, isCarry: false })
-            //     .sort({ day: 1, startTime: 1 });
-            //
-            // const slotsInIST = slots.map(slot => ({
-            //     ...slot._doc,
-            //     startTime: moment(slot.startTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
-            //     endTime: moment(slot.endTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
-            // }));
-            //
-            // return res.status(200).json(slotsInIST);
-            return res.send("Hello world")
+            const slots = await Slot.find({ toShow: true, isCarry: false })
+                .sort({ day: 1, startTime: 1 });
+
+            const slotsInIST = slots.map(slot => ({
+                ...slot._doc,
+                startTime: moment(slot.startTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
+                endTime: moment(slot.endTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
+            }));
+
+            return res.status(200).json(slotsInIST);
         } catch (err) {
             console.error(`Error retrieving slots: ${err.message}`);
             return res.status(500).json({ error: "Unable to retrieve Slots from Database" });
