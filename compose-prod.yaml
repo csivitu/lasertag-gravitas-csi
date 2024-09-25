@@ -5,7 +5,6 @@ services:
       - ${PORT}:${PORT}
     restart: always
     depends_on:
-      - mongodb
       - redis
     volumes:
       - log-data:/app/logs
