@@ -17,6 +17,18 @@ jobs:
         run: git pull origin main
         working-directory: /home/gravitas/lasertag-gravitas-csi
 
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
       - name: Build and Deploy
-        run: docker compose -f compose-prod.yaml up --build -d
+        run: |
+          docker compose -f compose-prod.yaml up --build -d --remove-orphans
+        working-directory: /home/gravitas/lasertag-gravitas-csi
+
+      - name: Show Docker Compose Logs on Failure
+        if: failure()
+        run: |
+          docker compose -f compose-prod.yaml logs
         working-directory: /home/gravitas/lasertag-gravitas-csi
