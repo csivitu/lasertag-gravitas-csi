@@ -1,0 +1,24 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Pull Changes
+        run: git pull origin main
+        working-directory: /home/gravitas/lasertag-gravitas-csi
+
+      - name: Build and Deploy
+        run: |
+          sudo docker build -t lasertag-backend .
+          sudo docker compose -f compose-prod.yml up -d
+        working-directory: /home/gravitas/lasertag-gravitas-csi
