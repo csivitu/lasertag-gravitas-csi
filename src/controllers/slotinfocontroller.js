@@ -14,8 +14,8 @@ const SlotInfoController = catchAsync(
             });
 
         const adjustedSlots = slots.map((slot) => {
-            const adjustedStartTime = new moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC');
-            const adjustedEndTime = new moment.tz(slot.endTime.getTime() - 10 * 60 * 1000, 'UTC');
+            const adjustedStartTime = new moment.tz(slot.startTime.getTime(), 'UTC').tz("Asia/Kolkata");
+            const adjustedEndTime = new moment.tz(slot.endTime.getTime(), 'UTC').tz("Asia/Kolkata");
 
             // Create a new object with adjusted times and other properties
             return {
