@@ -13,6 +13,7 @@ const SlotInfoController = catchAsync(
                 ...slot._doc,
                 startTime: moment(slot.startTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
                 endTime: moment(slot.endTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
+                availability: 10 - slot.slotBookedBy.length
             }));
 
             return res.status(200).json(slotsInIST);
