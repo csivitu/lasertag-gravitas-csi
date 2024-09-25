@@ -18,7 +18,5 @@ jobs:
         working-directory: /home/gravitas/lasertag-gravitas-csi
 
       - name: Build and Deploy
-        run: |
-          sudo docker build -t lasertag-backend .
-          sudo docker compose -f compose-prod.yml up -d
+        run: docker compose -f compose-prod.yaml up --build -d
         working-directory: /home/gravitas/lasertag-gravitas-csi
