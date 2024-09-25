@@ -13,22 +13,22 @@ const SlotInfoController = catchAsync(
                 return res.status(500).json({ error: "Unable to retrieve/sort Slots from Database" });
             });
 
-        const adjustedSlots = slots.map((slot) => {
-            const adjustedStartTime = new moment.tz(slot.startTime.getTime(), 'UTC');
-            const adjustedEndTime = new moment.tz(slot.endTime.getTime(), 'UTC');
-
-            // Create a new object with adjusted times and other properties
-            return {
-                ...slot.toObject(),
-                startTime: adjustedStartTime,
-                endTime: adjustedEndTime,
-            };
-        });
+        // const adjustedSlots = slots.map((slot) => {
+        //     const adjustedStartTime = new moment.tz(slot.startTime.getTime(), 'UTC');
+        //     const adjustedEndTime = new moment.tz(slot.endTime.getTime(), 'UTC');
+        //
+        //     // Create a new object with adjusted times and other properties
+        //     return {
+        //         ...slot.toObject(),
+        //         startTime: adjustedStartTime,
+        //         endTime: adjustedEndTime,
+        //     };
+        // });
 
         Logger.info("Successfully returned slot info as response.");
         Logger.info(`Returned slot info for: ${adjustedSlots.length} slots.`);
-        return res.status(200).json(adjustedSlots);
-        // return res.status(200).json(slots);
+        // return res.status(200).json(adjustedSlots);
+        return res.status(200).json(slots);
     }
 );
 
