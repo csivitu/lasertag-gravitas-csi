@@ -6,11 +6,11 @@ import moment from "moment-timezone";
 const SlotInfoController = catchAsync(
     async (req, res) => {
         try {
-            const slots = await Slot.find({ toShow: true, isCarry: false })
+            const slots = await Slot.find({ toShow: true, isCarry: false }).populate({ path: "slotBookedBy", select: "name" })
                 .sort({ day: 1, startTime: 1 });
 
             const slotsInIST = slots.map(slot => ({
-                ...slot._doc,
+                ...slot.toObject(),
                 startTime: moment(slot.startTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
                 endTime: moment(slot.endTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
                 availability: 10 - slot.slotBookedBy.length
