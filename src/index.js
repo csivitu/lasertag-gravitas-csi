@@ -38,7 +38,7 @@ app.use("/verify-user", verifyuser);
 app.use("/user-info", userinfo);
 app.use("/slot-info", slotinfo);
 app.use("/book-slot", bookslot);
-app.use("/change-slot", changeslotlimiter, changeslot);
+app.use("/change-slot", changeslot);
 app.use("/cancel-slot", cancelslot);
 app.use("/admin-slot-info", adminslotinfo);
 app.use("/admin-cancel-slot", admincancelslot);

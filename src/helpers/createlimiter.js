@@ -6,7 +6,10 @@ const createLimiter = (limit, min, msg) => {
         limit: limit,
         standardHeaders: 'draft-7',
         legacyHeaders: false,
-        message: msg
+        message: msg,
+        keyGenerator: (req) => {
+            return req.userID;
+        }
     });
 
     return limiter;
