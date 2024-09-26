@@ -11,8 +11,8 @@ const SlotInfoController = catchAsync(
 
             const slotsInIST = slots.map(slot => ({
                 ...slot.toObject(),
-                startTime: moment(slot.startTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
-                endTime: moment(slot.endTime).tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
+                startTime: moment(slot.startTime).subtract(10, 'minutes').tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
+                endTime: moment(slot.endTime).subtract(10, 'minutes').tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss'),
                 availability: 10 - slot.slotBookedBy.length
             }));
 
