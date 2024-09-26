@@ -33,11 +33,11 @@ const ChangeSlotController = catchAsync(
             Logger.info(`${user.email} attempted change when booked slot time has already passed.`);
             return res.status(400).json({ error: "Booked slot time has already passed." });
         }
-        if ((oldSlot.startTime.getTime() - new Date().getTime()) < (9 * 60 * 60 * 1000)) {
-            Logger.info(`${user.email} not allowed change slot since within 9 hours of booked slot time.`);
+        if ((oldSlot.startTime.getTime() - new Date().getTime()) < (4 * 60 * 60 * 1000)) {
+            Logger.info(`${user.email} not allowed change slot since within 4 hours of booked slot time.`);
             return res.status(400).json({
                 error:
-                    "Slot change is not allowed within 9 hours of the already booked slot."
+                    "Slot change is not allowed within 4 hours of the already booked slot."
             });
         }
 
@@ -51,7 +51,7 @@ const ChangeSlotController = catchAsync(
         const istnewDate = istnewDateTime.format('dddd, MMMM D, YYYY');
         const istnewTime = istnewDateTime.format('hh:mm:ss A');
 
-        const qrmail = fs.readFileSync('/app/src/controllers/finalqr_new.html', 'utf8');
+        const qrmail = fs.readFileSync('./src/controllers/finalqr_new.html', 'utf8');
         let customQRMail = qrmail.replace('%backend_data%', user.QR.data);
         customQRMail = customQRMail.replace('%backend_date%', istnewDate);
         customQRMail = customQRMail.replace('%backend_time%', istnewTime);

@@ -24,7 +24,7 @@ const BookSlotController = catchAsync(
             return res.status(400).json({ error: "User has already booked slot. To change, please click Change Slot." });
         }
 
-        const linkText = `${envHandler('CLIENT_URL')}admin-scan/${user.email}`;
+        const linkText = `${envHandler('CLIENT_URL')}/admin-scan/${user.email}`;
         const iststartDateTime = moment.tz(slot.startTime.getTime() - 10 * 60 * 1000, 'UTC').tz('Asia/Kolkata');
         const iststartDate = iststartDateTime.format('dddd, MMMM D, YYYY');
         const iststartTime = iststartDateTime.format('hh:mm:ss A');
