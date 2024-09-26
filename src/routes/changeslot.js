@@ -7,6 +7,6 @@ import changeslotlimiter from "../middleware/changeslotlimiter.js";
 
 const changeslot = express.Router();
 
-changeslot.post("/", protect, changeslotlimiter, verifyslot, requireNotScanned, ChangeSlotController);
+changeslot.post("/", protect, verifyslot, requireNotScanned, ChangeSlotController);
 
 export default changeslot;
