@@ -19,6 +19,10 @@ const BookSlotController = catchAsync(
             Logger.info(`${userID}: User not Found`);
             return res.status(400).json({ error: "User not Found" });
         }
+        if (slot.day != 1) {
+            Logger.info(`${user.email}: Invalid slot day`);
+            return res.status(400).json({ error: "Invalid slot day" });
+        }
         if (user.slotBooked != null) {
             Logger.info(`${user.email}: User slot already booked. Will have to click on change slot.`);
             return res.status(400).json({ error: "User has already booked slot. To change, please click Change Slot." });

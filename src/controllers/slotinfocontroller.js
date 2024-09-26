@@ -6,7 +6,7 @@ import moment from "moment-timezone";
 const SlotInfoController = catchAsync(
     async (req, res) => {
         try {
-            const slots = await Slot.find({ toShow: true, isCarry: false }).populate({ path: "slotBookedBy", select: "name" })
+            const slots = await Slot.find({ toShow: true, isCarry: false, day: 1 }).populate({ path: "slotBookedBy", select: "name" })
                 .sort({ day: 1, startTime: 1 });
 
             const slotsInIST = slots.map(slot => ({
