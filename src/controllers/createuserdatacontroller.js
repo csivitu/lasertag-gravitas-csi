@@ -13,7 +13,7 @@ const CreateUserDataController = catchAsync(
             return res.status(400).json({ error: "Bad auth: You are not allowed to create data." });
         }
 
-        const filepath = "/app/userdata.xlsx";
+        const filepath = "./app/userdata.xlsx";
         const workbook = XLSX.readFile(filepath);
 
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
