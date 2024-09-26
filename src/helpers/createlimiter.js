@@ -9,6 +9,9 @@ const createLimiter = (limit, min, msg) => {
         message: msg,
         keyGenerator: (req) => {
             return req.userID;
+        },
+        skip: (req) => {
+            return !req.userID;
         }
     });
 
