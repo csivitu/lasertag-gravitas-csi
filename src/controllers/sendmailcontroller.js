@@ -13,7 +13,7 @@ const SendMailController = catchAsync(
             return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
         }
 
-        const html = fs.readFileSync('/app/src/controllers/noqr.html', 'utf8');
+        const html = fs.readFileSync('./src/controllers/lasertag-2.html', 'utf8');
 
         const users = await User.find({}, 'email').lean().exec(); // To be changed to all users
         const emailList = users.map((user) => user.email);
