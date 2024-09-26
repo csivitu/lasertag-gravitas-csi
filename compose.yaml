@@ -1,6 +1,7 @@
 services:
   app:
     image: lasertag-backend
+    build: .
     ports:
       - ${PORT}:${PORT}
     restart: always
