@@ -48,6 +48,7 @@ const VerifyUserController = catchAsync(
             return res.json({token, isAdmin: true});
         }
         Logger.info(`${email} successfully verified and logged in as USER.`);
+        await redis.del(attemptKey)
         return res.json({token, isAdmin: false});
     }
 );
