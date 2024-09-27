@@ -9,7 +9,7 @@ const SlotInfoController = catchAsync(
             const slots = await Slot.find({ 
                 toShow: true, 
                 isCarry: false, 
-                day: { $in: [1, 2] }
+                day: { $in: [2, 3] }
               })
               .populate({ path: "slotBookedBy", select: "name" })
               .sort({ day: 1, startTime: 1 });
