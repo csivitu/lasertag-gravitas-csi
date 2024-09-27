@@ -21,7 +21,7 @@ const ChangeSlotController = catchAsync(
         const slot = await Slot.findById(slotId);
         const oldSlot = await Slot.findById(user.slotBooked);
 
-        if (slot.day != 1) {
+        if (slot.day != 1 && slot.day != 2) {
             Logger.info(`${user.email}: Invalid slot day`);
             return res.status(400).json({ error: "Invalid slot day" });
         }

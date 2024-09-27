@@ -19,7 +19,7 @@ const BookSlotController = catchAsync(
             Logger.info(`${userID}: User not Found`);
             return res.status(400).json({ error: "User not Found" });
         }
-        if (slot.day != 1) {
+        if (slot.day != 1 && slot.day != 2) {
             Logger.info(`${user.email}: Invalid slot day`);
             return res.status(400).json({ error: "Invalid slot day" });
         }
