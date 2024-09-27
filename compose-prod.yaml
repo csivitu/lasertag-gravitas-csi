@@ -14,6 +14,7 @@ services:
     
   redis:
     image: redis
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "512mb", "--maxmemory-policy", "allkeys-lru"]
     ports:
       - 6379:6379
     restart: always
