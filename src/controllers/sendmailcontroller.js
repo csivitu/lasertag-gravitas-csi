@@ -13,10 +13,11 @@ const SendMailController = catchAsync(
             return res.status(400).json({error: "Bad auth: You are not allowed to create data."});
         }
 
-        const html = fs.readFileSync('./src/controllers/lasertag-2.html', 'utf8');
+        const html = fs.readFileSync('./src/controllers/reminder.html', 'utf8');
 
-        const users = await User.find({}, 'email').lean().exec(); // To be changed to all users
+        const users = await User.find({}, 'email').lean().exec(); 
         const emailList = users.map((user) => user.email);
+
         console.log(emailList);
         console.log(emailList.length);
 
@@ -33,7 +34,7 @@ const SendMailController = catchAsync(
                 },
                 Message: {
                   Subject: {
-                    Data: 'Slot Booking Notice for LaserTag - CSI',
+                    Data: 'LaserTag Slots Available for September 28th, Book Now! - CSI',
                   },
                   Body: {
                     Html: {
