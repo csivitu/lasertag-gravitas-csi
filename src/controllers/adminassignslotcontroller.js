@@ -39,7 +39,7 @@ const AdminAssignSlotController = catchAsync(
         const iststartDate = iststartDateTime.format('dddd, MMMM D, YYYY');
         const iststartTime = iststartDateTime.format('hh:mm:ss A');
 
-        const qrmail = fs.readFileSync('/app/src/controllers/finalqr_new.html', 'utf8');
+        const qrmail = fs.readFileSync('./src/controllers/finalqr_new.html', 'utf8');
         let customQRMail = qrmail.replace('%backend_data%', linkText);
         customQRMail = customQRMail.replace('%backend_date%', iststartDate);
         customQRMail = customQRMail.replace('%backend_time%', iststartTime);
@@ -74,7 +74,7 @@ const AdminAssignSlotController = catchAsync(
         slot.slotBookedBy.push(user);
         user.QR.isScanned = false;
         user.QR.data = linkText;
-        
+
         await Promise.all([user.save(), slot.save()]);
         Logger.info(`ADMIN ${adminMail} assigned slot ${slot.startTime} to ${email}.`);
         return res.status(200).json({ message: `Successfully assigned slot ${slot.startTime} to ${email}.` });
