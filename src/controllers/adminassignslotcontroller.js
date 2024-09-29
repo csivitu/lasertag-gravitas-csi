@@ -3,6 +3,7 @@ import User from "../models/userModel.js";
 import Slot from "../models/slotModel.js";
 import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
+import moment from "moment-timezone";
 
 const AdminAssignSlotController = catchAsync(
     async (req, res) => {
