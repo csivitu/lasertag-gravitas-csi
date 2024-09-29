@@ -5,6 +5,7 @@ import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
 import moment from "moment-timezone";
 import fs from "fs";
+import ses from "../initializers/sesmailer.js";
 
 const AdminAssignSlotController = catchAsync(
     async (req, res) => {
