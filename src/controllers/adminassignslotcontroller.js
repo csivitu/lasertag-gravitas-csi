@@ -4,6 +4,7 @@ import Slot from "../models/slotModel.js";
 import envHandler from "../helpers/envHandler.js";
 import Logger from "../initializers/logger.js";
 import moment from "moment-timezone";
+import fs from "fs";
 
 const AdminAssignSlotController = catchAsync(
     async (req, res) => {
