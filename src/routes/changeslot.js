@@ -3,6 +3,7 @@ import protect from "../middleware/protect.js";
 import verifyslot from "../middleware/verifyslot.js";
 import ChangeSlotController from "../controllers/changeslotcontroller.js";
 import requireNotScanned from "../middleware/requireNotScanned.js";
+import changeslotlimiter from "../middleware/changeslotlimiter.js";
 
 const changeslot = express.Router();
 

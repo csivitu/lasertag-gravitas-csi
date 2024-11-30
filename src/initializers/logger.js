@@ -37,6 +37,10 @@ const transports = [
         filename: 'logs/error.log',
         level: 'warn'
     }),
+    new winston.transports.File({
+        filename: 'logs/error_new.log',
+        level: 'error'
+    }),
 ];
 
 const Logger = winston.createLogger({
